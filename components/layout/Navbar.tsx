@@ -1,10 +1,18 @@
+import Image from "next/image";
+
 export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full bg-(--nw-cream)/80 backdrop-blur-md border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         {/* Brand Identity */}
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-(--nw-gold)] rounded-sm transform rotate-12 shadow-md" />
+          <Image
+            src="/header_logo.png"
+            alt="Nextwave Global Logo"
+            width={32}
+            height={32}
+            className="rounded-sm transform rotate-12 shadow-md"
+          />
           <span className="text-xl font-bold tracking-tighter text-(--nw-charcoal)">
             Nextwave{" "}
             <span className="text-(--nw-gold) font-medium">Global</span>

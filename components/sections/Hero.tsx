@@ -1,20 +1,19 @@
-import { ArrowRight } from "lucide-react";
+import { Button } from "../ui/Button";
 
 export default function Hero() {
   return (
-    <section className="pt-24 pb-16 px-6 text-center">
+    <section className="py-20 px-6 text-center bg-white">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-5xl md:text-7xl font-black mb-6 uppercase tracking-tighter">
-          Learn. Lead. <span className="text-(--nw-gold)">Earn.</span>
+        <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-6">
+          LEARN. LEAD. <span className="text-(--nw-gold)">EARN.</span>
         </h1>
-        <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
-          We empower students to navigate life, learn effectively, and grow
-          holistically beyond the classroom walls.
+        <p className="text-xl text-gray-600 mb-10 leading-relaxed">
+          NextWave Global is a movement that empowers students to learn, lead,
+          and earn in ways that go beyond the classroom.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button className="bg-(--nw-gold) text-white px-8 py-4 rounded-full font-bold flex items-center justify-center gap-2 hover:opacity-90 transition">
-            Join the Movement <ArrowRight size={20} />
-          </button>
+        <div className="flex gap-4 justify-center">
+          <Button variant="primary">Join the Movement</Button>
+          <Button variant="outline">Our Programs</Button>
         </div>
       </div>
     </section>
