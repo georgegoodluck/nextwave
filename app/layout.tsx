@@ -1,3 +1,4 @@
+// app/layout.tsx
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -15,7 +16,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "NextWave",
   description: "NextWave",
-};
+  icons: {
+    icon: "/logo.png", // This points to public/logo.png
+  },
+}; // Fixed: Removed extra braces here
 
 export default function RootLayout({
   children,

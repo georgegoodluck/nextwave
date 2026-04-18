@@ -11,8 +11,8 @@ export default function Programs() {
               Scholar Reboot
             </h4>
             <p className="text-gray-400">
-              Launched at NextWave Global to give students academic clarity, study
-              strategies, and the confidence to excel.
+              Launched at NextWave Global to give students academic clarity,
+              study strategies, and the confidence to excel.
             </p>
           </div>
           <div className="space-y-4">
