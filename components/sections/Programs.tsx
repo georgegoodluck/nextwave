@@ -11,8 +11,8 @@ export default function Programs() {
               Scholar Reboot
             </h4>
             <p className="text-gray-400">
-              Launched at NextWave OAU to give students academic clarity, study
-              strategies, and the confidence to excel. [cite: 4]
+              Launched at NextWave Global to give students academic clarity, study
+              strategies, and the confidence to excel.
             </p>
           </div>
           <div className="space-y-4">
@@ -21,7 +21,7 @@ export default function Programs() {
             </h4>
             <p className="text-gray-400">
               Exposing students to professional networking and mentorship to
-              leverage digital platforms for career growth. [cite: 6, 7]
+              leverage digital platforms for career growth.
             </p>
           </div>
         </div>
