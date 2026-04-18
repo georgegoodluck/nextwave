@@ -1,3 +1,7 @@
+"use client";
+
+import Link from "next/link";
+
 export default function Programs() {
   return (
     <section id="programs" className="py-24 bg-(--nw-charcoal) text-white px-6">
@@ -6,24 +10,28 @@ export default function Programs() {
           Impact Initiatives
         </h2>
         <div className="grid md:grid-cols-2 gap-8">
-          <div className="border border-gray-800 p-10 rounded-xl hover:bg-gray-900 transition">
-            <h4 className="text-(--nw-gold) font-bold text-xl mb-4">
-              Scholar Reboot
-            </h4>
-            <p className="text-gray-400">
-              Designed to give students academic clarity, study strategies, and
-              the confidence to excel in their university journey.
-            </p>
-          </div>
-          <div className="border border-gray-800 p-10 rounded-xl hover:bg-gray-900 transition">
-            <h4 className="text-(--nw-gold) font-bold text-xl mb-4">
-              Campus2LinkedIn
-            </h4>
-            <p className="text-gray-400">
-              Exposing students to the power of professional networking and
-              personal branding for career growth and internships.
-            </p>
-          </div>
+          <Link href="/programs/scholar-reboot" className="block">
+            <div className="border border-gray-800 p-10 rounded-xl hover:bg-gray-900 transition cursor-pointer h-full">
+              <h4 className="text-(--nw-gold) font-bold text-xl mb-4">
+                Scholar Reboot
+              </h4>
+              <p className="text-gray-400">
+                Designed to give students academic clarity, study strategies,
+                and the confidence to excel in their university journey.
+              </p>
+            </div>
+          </Link>
+          <Link href="/programs/campus2linkedin" className="block">
+            <div className="border border-gray-800 p-10 rounded-xl hover:bg-gray-900 transition cursor-pointer h-full">
+              <h4 className="text-(--nw-gold) font-bold text-xl mb-4">
+                Campus2LinkedIn
+              </h4>
+              <p className="text-gray-400">
+                Exposing students to the power of professional networking and
+                personal branding for career growth and internships.
+              </p>
+            </div>
+          </Link>
         </div>
       </div>
     </section>
