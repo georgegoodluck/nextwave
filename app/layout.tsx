@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/logo.png", // This points to public/logo.png
   },
-}; // Fixed: Removed extra braces here
+};
 
 export default function RootLayout({
   children,

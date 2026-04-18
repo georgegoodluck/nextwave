@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --nw-gold: #b08d21;
-  --nw-charcoal: #1a1a1a;
-  --nw-cream: #fdfbf7;
+  --nw-gold: #B08D21;
+  --nw-charcoal: #1A1A1A;
+  --nw-cream: #FDFBF7;
 }
 
 body {
