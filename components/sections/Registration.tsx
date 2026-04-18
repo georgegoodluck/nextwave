@@ -1,16 +1,73 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "../ui/Button";
-import { CheckCircle, GraduationCap, Send } from "lucide-react";
+import { CheckCircle, GraduationCap, Send, Loader2 } from "lucide-react";
+
+interface FormData {
+  fullName: string;
+  email: string;
+  interest: string;
+}
 
 export default function RegistrationForm() {
+  const router = useRouter();
   const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [formData, setFormData] = useState<FormData>({
+    fullName: "",
+    email: "",
+    interest: "Scholar Reboot (Academic Excellence)",
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Integration logic for Supabase or an API route goes here
-    setSubmitted(true);
+    setIsLoading(true);
+    setError("");
+
+    try {
+      // Send data to your API route
+      const response = await fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Registration failed");
+      }
+
+      // Success!
+      setSubmitted(true);
+
+      // Optional: Clear form data
+      setFormData({
+        fullName: "",
+        email: "",
+        interest: "Scholar Reboot (Academic Excellence)",
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+    // Clear error when user starts typing
+    if (error) setError("");
   };
 
   if (submitted) {
@@ -20,13 +77,13 @@ export default function RegistrationForm() {
           <CheckCircle size={64} className="text-(--nw-gold)" />
         </div>
         <h2 className="text-3xl font-bold mb-4 text-(--nw-charcoal)">
-          You&apos;re on the list!
+          You&apos;re on the list! 🎉
         </h2>
         <p className="text-gray-500 mb-8">
           Check your email for details on the next Scholar Reboot cohort. Get
           ready to gain the academic clarity you need.
         </p>
-        <Button variant="outline" onClick={() => setSubmitted(false)}>
+        <Button variant="outline" onClick={() => router.push("/")}>
           Back to Home
         </Button>
       </section>
@@ -53,16 +110,16 @@ export default function RegistrationForm() {
           </p>
           <ul className="space-y-4 text-gray-600 font-medium">
             <li className="flex gap-3">
-              <span className="text-(--nw-gold) font-bold">✓</span>{" "}
-              Holistic growth insights
+              <span className="text-(--nw-gold) font-bold">✓</span> Holistic
+              growth insights
             </li>
             <li className="flex gap-3">
-              <span className="text-(--nw-gold) font-bold">✓</span>{" "}
-              Professional networking skills
+              <span className="text-(--nw-gold) font-bold">✓</span> Professional
+              networking skills
             </li>
             <li className="flex gap-3">
-              <span className="text-(--nw-gold) font-bold">✓</span>{" "}
-              Strategies to monetize your skills
+              <span className="text-(--nw-gold) font-bold">✓</span> Strategies
+              to monetize your skills
             </li>
           </ul>
         </div>
@@ -71,39 +128,75 @@ export default function RegistrationForm() {
           onSubmit={handleSubmit}
           className="bg-gray-50 p-8 md:p-12 rounded-3xl border border-gray-100 space-y-6"
         >
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm">
+              {error}
+            </div>
+          )}
+
           <div className="space-y-2">
             <label className="text-xs font-bold uppercase tracking-wider text-gray-500">
-              Full Name
+              Full Name<span className="text-red-600">*</span>
             </label>
             <input
               required
-              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-(--nw-gold) outline-none transition"
+              name="fullName"
+              value={formData.fullName}
+              onChange={handleChange}
+              disabled={isLoading}
+              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-(--nw-gold) outline-none transition disabled:opacity-50"
               placeholder="George Goodluck"
             />
           </div>
+
           <div className="space-y-2">
             <label className="text-xs font-bold uppercase tracking-wider text-gray-500">
-              University Email
+              Email<span className="text-red-600">*</span>
             </label>
             <input
               required
               type="email"
-              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-(--nw-gold) outline-none transition"
-              placeholder="student@university.edu"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              disabled={isLoading}
+              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-(--nw-gold) outline-none transition disabled:opacity-50"
+              placeholder="nextwave@gmail.com"
             />
           </div>
+
           <div className="space-y-2">
             <label className="text-xs font-bold uppercase tracking-wider text-gray-500">
               Area of Interest
             </label>
-            <select className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-(--nw-gold) outline-none transition">
+            <select
+              name="interest"
+              value={formData.interest}
+              onChange={handleChange}
+              disabled={isLoading}
+              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-(--nw-gold) outline-none transition disabled:opacity-50"
+            >
               <option>Scholar Reboot (Academic Excellence)</option>
               <option>Campus2LinkedIn (Career Growth)</option>
               <option>Skill Monetization (Earn)</option>
             </select>
           </div>
-          <Button variant="primary" className="w-full py-4 flex gap-2">
-            Secure My Spot <Send size={18} />
+
+          <Button
+            variant="primary"
+            className="w-full py-4 flex gap-2 items-center justify-center"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <Loader2 size={18} className="animate-spin" />
+                Processing...
+              </>
+            ) : (
+              <>
+                Secure My Spot <Send size={18} />
+              </>
+            )}
           </Button>
         </form>
       </div>
