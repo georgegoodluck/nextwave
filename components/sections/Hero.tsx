@@ -1,6 +1,16 @@
+"use client";
+
+import Link from "next/link";
 import { Button } from "../ui/Button";
 
 export default function Hero() {
+  const scrollToPrograms = () => {
+    const programsSection = document.getElementById("programs");
+    if (programsSection) {
+      programsSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section className="py-20 px-6 text-center bg-white">
       <div className="max-w-4xl mx-auto">
@@ -12,8 +22,12 @@ export default function Hero() {
           and earn in ways that go beyond the classroom.
         </p>
         <div className="flex gap-4 justify-center">
-          <Button variant="primary">Join the Movement</Button>
-          <Button variant="outline">Our Programs</Button>
+          <Link href="/register">
+            <Button variant="primary">Join the Movement</Button>
+          </Link>
+          <Button variant="outline" onClick={scrollToPrograms}>
+            Our Programs
+          </Button>
         </div>
       </div>
     </section>
