@@ -12,16 +12,17 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-(--nw-cream)/80 backdrop-blur-md border-b border-gray-100">
+    <nav className="sticky top-0 z-50 w-full bg-[#FDF7E7] backdrop-blur-md border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         {/* Brand Identity */}
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/header_logo.png"
+            src="/logo.png"
             alt="Nextwave Global Logo"
-            width={32}
-            height={32}
-            className="rounded-sm transform rotate-12 shadow-md"
+            width={62}
+            height={62}
+            className="rounded-sm"
+            style={{ width: "auto", height: "auto" }}
             priority
           />
           <span className="text-xl font-bold tracking-tighter text-(--nw-charcoal)">

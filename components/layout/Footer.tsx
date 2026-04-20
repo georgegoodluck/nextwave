@@ -32,26 +32,17 @@ export default function Footer() {
             <div className="flex gap-4">
               <SocialIcon
                 url="https://linkedin.com/company/nextwave-global"
-                bgColor="#1a1a1a"
-                fgColor="#fdfbf7"
+                bgColor="#0077B5"
+                fgColor="#FFFFFF"
                 style={{ height: 36, width: 36 }}
                 className="hover:opacity-80 transition-opacity"
                 target="_blank"
                 rel="noopener noreferrer"
               />
               <SocialIcon
-                url="https://twitter.com/nextwaveglobal"
-                bgColor="#1a1a1a"
-                fgColor="#fdfbf7"
-                style={{ height: 36, width: 36 }}
-                className="hover:opacity-80 transition-opacity"
-                target="_blank"
-                rel="noopener noreferrer"
-              />
-              <SocialIcon
-                url="https://instagram.com/nextwaveglobal"
-                bgColor="#1a1a1a"
-                fgColor="#fdfbf7"
+                url="https://telegram.com/nextwaveglobal"
+                bgColor="#0088CC"
+                fgColor="#FFFFFF"
                 style={{ height: 36, width: 36 }}
                 className="hover:opacity-80 transition-opacity"
                 target="_blank"
@@ -82,8 +73,7 @@ export default function Footer() {
                   Campus2LinkedIn
                 </button>
               </li>
-              <li>
-              </li>
+              <li></li>
             </ul>
           </div>
 
@@ -96,10 +86,10 @@ export default function Footer() {
               <li className="flex items-center gap-2">
                 <Mail size={16} />
                 <a
-                  href="mailto:hello@nextwaveglobal.org"
+                  href="mailto:nextwaveglobal509@gmail.com"
                   className="hover:text-(--nw-gold) transition"
                 >
-                  hello@nextwaveglobal.org
+                  nextwaveglobal509@gmail.com
                 </a>
               </li>
               <li className="text-(--nw-gold) font-bold italic">

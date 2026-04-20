@@ -28,25 +28,29 @@ export default function RegistrationForm() {
     setError("");
 
     try {
-      // Send data to your API route
-      const response = await fetch("/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      // Send to FormSubmit.co (free email service)
+      const response = await fetch(
+        "https://formsubmit.co/ajax/nextwaveglobal509@gmail.com",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.fullName,
+            email: formData.email,
+            interest: formData.interest,
+            _subject: `New Scholar Reboot Registration from ${formData.fullName}`,
+            _template: "table",
+            _captcha: "false",
+          }),
         },
-        body: JSON.stringify(formData),
-      });
+      );
 
-      const data = await response.json();
+      if (!response.ok) throw new Error("Submission failed");
 
-      if (!response.ok) {
-        throw new Error(data.message || "Registration failed");
-      }
-
-      // Success!
       setSubmitted(true);
-
-      // Optional: Clear form data
       setFormData({
         fullName: "",
         email: "",
@@ -66,7 +70,6 @@ export default function RegistrationForm() {
       ...formData,
       [e.target.name]: e.target.value,
     });
-    // Clear error when user starts typing
     if (error) setError("");
   };
 
@@ -145,7 +148,7 @@ export default function RegistrationForm() {
               onChange={handleChange}
               disabled={isLoading}
               className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-(--nw-gold) outline-none transition disabled:opacity-50"
-              placeholder="George Goodluck"
+              placeholder="Akinwole Samson"
             />
           </div>
 
