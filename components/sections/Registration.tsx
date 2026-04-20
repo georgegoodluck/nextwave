@@ -164,7 +164,7 @@ export default function RegistrationForm() {
               onChange={handleChange}
               disabled={isLoading}
               className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-(--nw-gold) outline-none transition disabled:opacity-50"
-              placeholder="nextwave@gmail.com"
+              placeholder="nextwaveglobal509@gmail.com"
             />
           </div>
 
