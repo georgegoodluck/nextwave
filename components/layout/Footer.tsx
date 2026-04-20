@@ -83,12 +83,6 @@ export default function Footer() {
                 </button>
               </li>
               <li>
-                <button
-                  onClick={() => scrollToSection("programs")}
-                  className="hover:text-(--nw-gold) transition cursor-pointer"
-                >
-                  Mentorship
-                </button>
               </li>
             </ul>
           </div>
