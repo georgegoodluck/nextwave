@@ -1,4 +1,3 @@
-// app/layout.tsx
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -17,7 +16,7 @@ export const metadata: Metadata = {
   title: "NextWave",
   description: "NextWave",
   icons: {
-    icon: "/logo.png", // This points to public/logo.png
+    icon: "/logo.png",
   },
 };
 

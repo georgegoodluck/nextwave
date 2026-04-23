@@ -5,7 +5,12 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
 }
 
-export const Button = ({ variant = "primary", children, className = "", ...props }: ButtonProps) => {
+export const Button = ({
+  variant = "primary",
+  children,
+  className = "",
+  ...props
+}: ButtonProps) => {
   const styles = {
     primary: "bg-[#B08D21] text-white hover:bg-[#8e711a]",
     secondary: "bg-[#1A1A1A] text-white hover:bg-black",

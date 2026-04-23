@@ -1,12 +1,32 @@
 @import "tailwindcss";
 
 :root {
-  --nw-gold: #B08D21;
-  --nw-charcoal: #1A1A1A;
-  --nw-cream: #FDFBF7;
+  --nw-gold: #b08d21;
+  --nw-charcoal: #1a1a1a;
+  --nw-cream: #fdfbf7;
 }
 
 body {
   background-color: var(--nw-cream);
   color: var(--nw-charcoal);
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  /* Creates the fade-out effect at the edges */
+  .mask-fade {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 5%,
+      black 95%,
+      transparent
+    );
+  }
 }

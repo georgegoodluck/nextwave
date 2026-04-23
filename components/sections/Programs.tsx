@@ -1,37 +1,32 @@
 "use client";
 
-import Link from "next/link";
-
 export default function Programs() {
+  const initiatives = [
+    { title: "Scholar Reboot", desc: "Academic clarity and strategy." },
+    { title: "Campus2LinkedIn", desc: "Professional networking and branding." },
+    { title: "Tech Mentorship", desc: "Building, shipping, and learning." },
+    { title: "Global Fellowship", desc: "Cross-border academic collaboration." },
+  ];
+
   return (
-    <section id="programs" className="py-24 bg-(--nw-charcoal) text-white px-6">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold mb-16 text-center">
-          Past Initiatives
-        </h2>
-        <div className="grid md:grid-cols-2 gap-8">
-          <Link href="/programs/scholar-reboot" className="block">
-            <div className="border border-gray-800 p-10 rounded-xl hover:bg-gray-900 transition cursor-pointer h-full">
-              <h4 className="text-(--nw-gold) font-bold text-xl mb-4">
-                Scholar Reboot
-              </h4>
-              <p className="text-gray-400">
-                Designed to give students academic clarity, study strategies,
-                and the confidence to excel in their university journey.
-              </p>
+    <section id="programs" className="py-24 bg-[#1A1A1A] text-white">
+      <div className="max-w-7xl mx-auto px-6">
+        <h2 className="text-4xl font-bold mb-16 text-center">Our Initiatives</h2>
+        
+        {/* Container with fade mask and snap behavior */}
+        <div className="flex gap-8 overflow-x-auto snap-x snap-mandatory mask-fade no-scrollbar py-4">
+          {initiatives.map((item, index) => (
+            <div 
+              key={item.title} 
+              className="min-w-[320px] md:min-w-100 snap-center p-10 rounded-3xl border border-gray-800 bg-gray-900/50 hover:bg-gray-800 transition-all duration-300 hover:border-[#B08D21] hover:-translate-y-2 cursor-pointer"
+            >
+              <div className="text-sm font-bold text-[#B08D21] mb-4 uppercase tracking-widest">
+                0{index + 1}
+              </div>
+              <h4 className="text-white font-bold text-2xl mb-4">{item.title}</h4>
+              <p className="text-gray-400 leading-relaxed">{item.desc}</p>
             </div>
-          </Link>
-          <Link href="/programs/campus2linkedin" className="block">
-            <div className="border border-gray-800 p-10 rounded-xl hover:bg-gray-900 transition cursor-pointer h-full">
-              <h4 className="text-(--nw-gold) font-bold text-xl mb-4">
-                Campus2LinkedIn
-              </h4>
-              <p className="text-gray-400">
-                Exposing students to the power of professional networking and
-                personal branding for career growth and internships.
-              </p>
-            </div>
-          </Link>
+          ))}
         </div>
       </div>
     </section>
