@@ -210,7 +210,7 @@ export default function RegistrationForm() {
               key={event.id}
               className={`border rounded-2xl p-6 transition-all cursor-pointer hover:shadow-lg ${
                 selectedEvent?.id === event.id
-                  ? "border-(--nw-gold) ring-2 ring-(--nw-gold)/20 bg-gradient-to-br from-white to-(--nw-gold)/5"
+                  ? "border-(--nw-gold) ring-2 ring-(--nw-gold)/20 bg-linear-to-br from-white to-(--nw-gold)/5"
                   : "border-gray-200 hover:border-(--nw-gold)/50"
               }`}
               onClick={() => handleEventSelect(event)}
@@ -269,7 +269,7 @@ export default function RegistrationForm() {
         {/* Registration Form - Only shows when event is selected */}
         {selectedEvent && (
           <div className="max-w-3xl mx-auto">
-            <div className="bg-gradient-to-r from-(--nw-gold)/10 to-transparent p-1 rounded-2xl">
+            <div className="bg-linear-to-r from-(--nw-gold)/10 to-transparent p-1 rounded-2xl">
               <div className="bg-white rounded-2xl p-8 border border-gray-100">
                 <div className="mb-6">
                   <h3 className="text-2xl font-bold text-(--nw-charcoal) mb-2">
