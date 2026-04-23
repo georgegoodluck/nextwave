@@ -4,12 +4,12 @@ const data = [
     desc: "Equip students with the knowledge, skills, and mindset to thrive academically and professionally.",
   },
   {
-    title: "Lead",
-    desc: "Inspire leadership, initiative, and community impact among young people.",
-  },
-  {
     title: "Earn",
     desc: "Help students explore ways to monetize their skills, access opportunities, and create financial independence.",
+  },
+  {
+    title: "Lead",
+    desc: "Inspire leadership, initiative, and community impact among young people.",
   },
 ];
 

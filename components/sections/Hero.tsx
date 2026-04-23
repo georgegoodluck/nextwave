@@ -15,11 +15,11 @@ export default function Hero() {
     <section className="py-20 px-6 text-center bg-white">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-6">
-          LEARN. LEAD. <span className="text-(--nw-gold)">EARN.</span>
+          LEARN. <span className="text-(--nw-gold)">EARN.</span> LEAD.
         </h1>
         <p className="text-xl text-gray-600 mb-10 leading-relaxed">
-          NextWave Global is a movement that empowers students to learn, lead,
-          and earn in ways that go beyond the classroom.
+          NextWave Global is a movement that empowers students to learn, earn,
+          and lead in ways that go beyond the classroom.
         </p>
         <div className="flex gap-4 justify-center">
           <Link href="/register">
