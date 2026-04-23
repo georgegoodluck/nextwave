@@ -40,7 +40,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
               />
               <SocialIcon
-                url="https://telegram.com/nextwaveglobal"
+                url="https://t.me/+NdjMKKMF6rNjNjBk"
                 bgColor="#0088CC"
                 fgColor="#FFFFFF"
                 style={{ height: 36, width: 36 }}
