@@ -31,7 +31,7 @@ export default function Footer() {
             </p>
             <div className="flex gap-4">
               <SocialIcon
-                url="https://linkedin.com/company/nextwave-global"
+                url="https://www.linkedin.com/company/nextwave-g/"
                 bgColor="#0077B5"
                 fgColor="#FFFFFF"
                 style={{ height: 36, width: 36 }}
