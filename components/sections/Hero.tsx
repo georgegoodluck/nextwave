@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Button } from "../ui/Button";
+import Link from "next/link";
 
 const container = {
   hidden: { opacity: 0 },
@@ -33,7 +34,13 @@ export default function Hero() {
       </motion.p>
 
       <motion.div variants={item} className="flex gap-4 justify-center">
-        <Button variant="primary">Join the Movement</Button>
+        <Link
+          href="https://chat.whatsapp.com/CGacyht0SVp1YzwTnm3wjm?mode=gi_t"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Button variant="primary">Join the Movement</Button>
+        </Link>
       </motion.div>
     </motion.section>
   );
