@@ -40,12 +40,6 @@ export default function Navbar() {
             </button>
           ))}
         </div>
-
-        <Link href="/register">
-          <Button variant="secondary" className="px-6 py-2 text-sm">
-            Join
-          </Button>
-        </Link>
       </div>
     </nav>
   );
