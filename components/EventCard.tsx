@@ -1,4 +1,3 @@
-// components/EventCard.tsx
 import React from "react";
 import { Event } from "@/types/events";
 import { Button } from "@/components/ui/Button";
@@ -16,6 +15,13 @@ export const EventCard: React.FC<EventCardProps> = ({
   onSelect,
 }) => {
   const isFull = event.registered >= event.capacity;
+  const spotsLeft = event.capacity - event.registered;
+
+  // Calculate percentage for progress bar
+  const fillPercentage = Math.min(
+    (event.registered / event.capacity) * 100,
+    100,
+  );
 
   return (
     <div
@@ -35,16 +41,30 @@ export const EventCard: React.FC<EventCardProps> = ({
         >
           {isFull
             ? "Fully Booked"
-            : `${event.capacity - event.registered} spots left`}
+            : `${spotsLeft} spot${spotsLeft > 1 ? "s" : ""} left`}
         </span>
       </div>
 
-      <h3 className="text-xl font-bold mb-2 text-(--nw-charcoal)">
+      <h3 className="text-xl font-bold mb-2 text-(--nw-charcoal) line-clamp-2">
         {event.title}
       </h3>
       <p className="text-gray-500 text-sm mb-4 line-clamp-2">
         {event.description}
       </p>
+
+      {/* Progress bar showing capacity */}
+      <div className="mb-4">
+        <div className="w-full bg-gray-200 rounded-full h-1.5">
+          <div
+            className="bg-(--nw-gold) h-1.5 rounded-full transition-all duration-500"
+            style={{ width: `${fillPercentage}%` }}
+          />
+        </div>
+        <div className="flex justify-between text-xs text-gray-400 mt-1">
+          <span>{event.registered} registered</span>
+          <span>Capacity: {event.capacity}</span>
+        </div>
+      </div>
 
       <div className="space-y-2 text-sm text-gray-600 mb-4">
         <div className="flex items-center gap-2">
@@ -70,7 +90,7 @@ export const EventCard: React.FC<EventCardProps> = ({
           onSelect(event);
         }}
       >
-        {isFull ? "Sold Out" : isSelected ? "Selected" : "Select Event"}
+        {isFull ? "Sold Out" : isSelected ? "Selected ✓" : "Select Event"}
       </Button>
     </div>
   );

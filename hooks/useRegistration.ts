@@ -1,4 +1,3 @@
-// hooks/useRegistration.ts
 import { useState } from "react";
 import { Event, FormData } from "@/types/events";
 
@@ -14,6 +13,25 @@ export function useRegistration() {
     phone: "",
   });
 
+  // Validation function
+  const validateForm = () => {
+    if (!formData.fullName.trim()) {
+      setError("Full name is required");
+      return false;
+    }
+    if (!formData.email.trim()) {
+      setError("Email is required");
+      return false;
+    }
+    // Simple email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError("Please enter a valid email address");
+      return false;
+    }
+    return true;
+  };
+
   const handleEventSelect = (event: Event) => {
     setSelectedEvent(event);
     setFormData((prev) => ({ ...prev, eventId: event.id }));
@@ -21,12 +39,16 @@ export function useRegistration() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
     if (error) setError("");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate form
+    if (!validateForm()) return;
 
     if (!selectedEvent) {
       setError("Please select an event to register for");
@@ -55,9 +77,10 @@ export function useRegistration() {
           body: JSON.stringify({
             name: formData.fullName,
             email: formData.email,
-            phone: formData.phone,
+            phone: formData.phone || "Not provided",
             event: selectedEvent.title,
             event_date: selectedEvent.date,
+            event_venue: selectedEvent.venue,
             _subject: `New Event Registration: ${selectedEvent.title} - ${formData.fullName}`,
             _template: "table",
             _captcha: "false",
@@ -65,13 +88,19 @@ export function useRegistration() {
         },
       );
 
-      if (!response.ok) throw new Error("Submission failed");
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || "Submission failed");
+      }
 
       setSubmitted(true);
-      setFormData({ fullName: "", email: "", eventId: "", phone: "" });
-      setSelectedEvent(null);
+      // Don't reset form data completely, keep it for success message
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again.",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -81,6 +110,12 @@ export function useRegistration() {
     setSelectedEvent(null);
     setError("");
     setSubmitted(false);
+    setFormData({
+      fullName: "",
+      email: "",
+      eventId: "",
+      phone: "",
+    });
   };
 
   return {
