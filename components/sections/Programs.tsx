@@ -1,100 +1,77 @@
 "use client";
 
-import { PROGRAMS, Program } from "@/data/programs";
+import Image from "next/image";
+import { PROGRAMS } from "@/data/programs";
+import { StatusBadge } from "@/components/ui/StatusBadge";
+import { CalendarIcon, ClockIcon, LocationIcon } from "@/components/ui/Icons";
 
 export default function Programs() {
   return (
     <section id="programs" className="py-24 bg-[#1A1A1A] text-white">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-4xl font-bold mb-16 text-center">
-          Our Initiatives
-        </h2>
+        <div className="text-center mb-16">
+          <span className="text-[#B08D21] text-sm font-bold uppercase tracking-widest">
+            Our Initiatives
+          </span>
+          <h2 className="text-4xl md:text-5xl font-bold mt-2">
+            Programs That <span className="text-[#B08D21]">Transform</span>
+          </h2>
+          <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
+            From academic excellence to career building, our initiatives are designed to equip you for success.
+          </p>
+        </div>
 
-        {/* Container with fade mask and snap behavior */}
         <div className="flex gap-8 overflow-x-auto snap-x snap-mandatory mask-fade no-scrollbar py-4">
           {PROGRAMS.map((item, index) => (
             <div
               key={item.title}
-              className="min-w-[320px] md:min-w-100 snap-center p-10 rounded-3xl border border-gray-800 bg-gray-900/50 hover:bg-gray-800 transition-all duration-300 hover:border-[#B08D21] hover:-translate-y-2 cursor-pointer"
+              className="min-w-[340px] md:min-w-[380px] snap-center rounded-3xl border border-gray-800 bg-gray-900/50 hover:bg-gray-800 transition-all duration-300 hover:border-[#B08D21] hover:-translate-y-2 overflow-hidden group"
             >
-              {/* Status Badge */}
-              <div className="flex items-center justify-between mb-4">
-                <div className="text-sm font-bold text-[#B08D21] uppercase tracking-widest">
-                  0{index + 1}
+              {/* Image Header */}
+              <div className="relative h-48 w-full bg-gradient-to-br from-[#B08D21]/20 to-gray-800">
+                {item.image ? (
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-6xl">
+                    📚
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                  <span className="text-sm font-bold text-[#B08D21] uppercase tracking-widest">
+                    0{index + 1}
+                  </span>
+                  <StatusBadge status={item.status} />
                 </div>
-                <span
-                  className={`text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full ${
-                    item.status === "Upcoming"
-                      ? "bg-green-500/20 text-green-400 border border-green-500/30"
-                      : item.status === "Coming Soon"
-                        ? "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30"
-                        : "bg-gray-500/20 text-gray-400 border border-gray-500/30"
-                  }`}
-                >
-                  {item.status}
-                </span>
               </div>
 
-              <h4 className="text-white font-bold text-2xl mb-3">
-                {item.title}
-              </h4>
-              <p className="text-gray-400 leading-relaxed mb-4">{item.desc}</p>
+              {/* Content */}
+              <div className="p-6">
+                <h4 className="text-white font-bold text-xl mb-2 group-hover:text-[#B08D21] transition-colors">
+                  {item.title}
+                </h4>
+                <p className="text-gray-400 text-sm leading-relaxed mb-4">
+                  {item.desc}
+                </p>
 
-              {/* Event Details */}
-              <div className="space-y-2 text-sm border-t border-gray-800 pt-4 mt-2">
-                <div className="flex items-center gap-2 text-gray-300">
-                  <svg
-                    className="w-4 h-4 text-[#B08D21]"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-                  <span>{item.date}</span>
-                </div>
-                <div className="flex items-center gap-2 text-gray-300">
-                  <svg
-                    className="w-4 h-4 text-[#B08D21]"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                  <span>{item.time}</span>
-                </div>
-                <div className="flex items-center gap-2 text-gray-300">
-                  <svg
-                    className="w-4 h-4 text-[#B08D21]"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                  <span>{item.venue}</span>
+                <div className="space-y-2 text-sm border-t border-gray-800 pt-4">
+                  <div className="flex items-center gap-2 text-gray-300">
+                    <CalendarIcon className="w-4 h-4 text-[#B08D21] shrink-0" />
+                    <span>{item.date}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-300">
+                    <ClockIcon className="w-4 h-4 text-[#B08D21] shrink-0" />
+                    <span>{item.time}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-300">
+                    <LocationIcon className="w-4 h-4 text-[#B08D21] shrink-0" />
+                    <span>{item.venue}</span>
+                  </div>
                 </div>
               </div>
             </div>
