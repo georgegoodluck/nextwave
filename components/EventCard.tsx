@@ -1,7 +1,7 @@
 "use client";
 
 import { Event } from "@/types/events";
-import { Users, MapPin, Calendar as CalendarIcon, Clock } from "lucide-react";
+import { MapPin, Calendar as CalendarIcon, Clock, Users } from "lucide-react";
 import Image from "next/image";
 
 interface EventCardProps {
@@ -11,14 +11,19 @@ interface EventCardProps {
 }
 
 export function EventCard({ event, isSelected, onSelect }: EventCardProps) {
+  const isPast = event.status?.toLowerCase() === "past";
+  const isUpcoming = event.status?.toLowerCase() === "upcoming";
+
   return (
     <div
       className={`group cursor-pointer transition-all duration-300 rounded-2xl overflow-hidden border-2 ${
-        isSelected
-          ? "border-[#B08D21] shadow-lg shadow-[#B08D21]/20"
-          : "border-gray-200 hover:border-[#B08D21]/50 hover:shadow-md"
+        isPast
+          ? "border-gray-200 opacity-75 hover:opacity-100"
+          : isSelected
+            ? "border-[#B08D21] shadow-lg shadow-[#B08D21]/20"
+            : "border-gray-200 hover:border-[#B08D21]/50 hover:shadow-md"
       }`}
-      onClick={() => onSelect(event)}
+      onClick={() => !isPast && onSelect(event)}
     >
       {/* Image */}
       <div className="relative h-48 w-full bg-gray-100">
@@ -34,12 +39,27 @@ export function EventCard({ event, isSelected, onSelect }: EventCardProps) {
             <span className="text-4xl">📚</span>
           </div>
         )}
+
+        {/* Overlay for past events */}
+        {isPast && (
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center">
+            <span className="bg-black/70 text-white text-sm font-bold px-6 py-2 rounded-full uppercase tracking-wider border border-white/20">
+              Event Passed
+            </span>
+          </div>
+        )}
+
         {/* Status Badge */}
         <div className="absolute top-3 right-3">
-          <span className="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+          <span
+            className={`text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider ${
+              isPast ? "bg-gray-500/90 text-white" : "bg-green-500 text-white"
+            }`}
+          >
             {event.status}
           </span>
         </div>
+
         {/* Category Badge */}
         <div className="absolute bottom-3 left-3">
           <span className="bg-black/70 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
@@ -50,7 +70,13 @@ export function EventCard({ event, isSelected, onSelect }: EventCardProps) {
 
       {/* Content */}
       <div className="p-5 bg-white">
-        <h3 className="font-bold text-[#1A1A1A] text-lg mb-2 line-clamp-2 group-hover:text-[#B08D21] transition-colors">
+        <h3
+          className={`font-bold text-lg mb-2 line-clamp-2 ${
+            isPast
+              ? "text-gray-600"
+              : "text-[#1A1A1A] group-hover:text-[#B08D21] transition-colors"
+          }`}
+        >
           {event.title}
         </h3>
 
@@ -71,37 +97,28 @@ export function EventCard({ event, isSelected, onSelect }: EventCardProps) {
             <MapPin size={15} className="text-[#B08D21] shrink-0" />
             <span className="line-clamp-1">{event.venue}</span>
           </div>
-          <div className="flex items-center gap-2 text-gray-600">
-            <Users size={15} className="text-[#B08D21] shrink-0" />
-            <span>
-              {event.registered} / {event.capacity} registered
-            </span>
-          </div>
         </div>
 
-        {/* Progress Bar */}
-        <div className="mt-3">
-          <div className="w-full bg-gray-200 rounded-full h-1.5">
-            <div
-              className="bg-[#B08D21] h-1.5 rounded-full transition-all duration-500"
-              style={{ width: `${(event.registered / event.capacity) * 100}%` }}
-            />
-          </div>
-        </div>
-
-        {/* Select Button */}
+        {/* Button */}
         <button
+          disabled={isPast}
           className={`w-full mt-4 py-2.5 rounded-full font-semibold text-sm transition-all duration-300 ${
-            isSelected
-              ? "bg-[#B08D21] text-white"
-              : "bg-gray-100 text-gray-700 hover:bg-[#B08D21] hover:text-white"
+            isPast
+              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+              : isSelected
+                ? "bg-[#B08D21] text-white"
+                : "bg-gray-100 text-gray-700 hover:bg-[#B08D21] hover:text-white"
           }`}
           onClick={(e) => {
             e.stopPropagation();
-            onSelect(event);
+            if (!isPast) onSelect(event);
           }}
         >
-          {isSelected ? "Selected ✓" : "Register Now"}
+          {isPast
+            ? "Event Completed"
+            : isSelected
+              ? "Selected ✓"
+              : "Register Now"}
         </button>
       </div>
     </div>
