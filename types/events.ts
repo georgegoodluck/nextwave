@@ -11,7 +11,7 @@ export interface Event {
   price: string;
   speakers: string[];
   status: string;
-  image?: string;
+  image?: string; // Optional image field
 }
 
 export interface FormData {
