@@ -12,7 +12,7 @@ export const UPCOMING_EVENTS: Event[] = [
     venue: "Virtual (WhatsApp Space)",
     price: "Free",
     speakers: [
-      "Amoocovenant",
+      "Amoo Covenant",
       "Omotosho John",
       "Ogunsakin Tobiloba",
       "Adefuye Oreoluwa",
