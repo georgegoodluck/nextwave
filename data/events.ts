@@ -15,6 +15,7 @@ export const UPCOMING_EVENTS: Event[] = [
     price: "Free",
     speakers: ["Dr. Adeola Williams", "Chidi Okonkwo"],
     status: "Upcoming",
+    image: "/events/hackathon.jpg", // Add your image path
   },
   {
     id: "money-moves-feb-2026",
@@ -30,6 +31,7 @@ export const UPCOMING_EVENTS: Event[] = [
     price: "Free",
     speakers: ["Tunde Adebayo", "Zainab Mohammed"],
     status: "Upcoming",
+    image: "/events/finance.jpg", // Add your image path
   },
   {
     id: "global-classroom-mar-2026",
@@ -45,6 +47,7 @@ export const UPCOMING_EVENTS: Event[] = [
     price: "Free",
     speakers: ["Maria Santos", "James Ochieng"],
     status: "Upcoming",
+    image: "/events/global.jpg", // Add your image path
   },
   {
     id: "academic-excellence-summit-may-2026",
@@ -60,5 +63,6 @@ export const UPCOMING_EVENTS: Event[] = [
     price: "Free",
     speakers: ["Prof. Funmi Adebayo", "Emeka Nwosu"],
     status: "Upcoming",
+    image: "/events/summit.jpg", // Add your image path
   },
 ];
