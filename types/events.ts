@@ -6,8 +6,6 @@ export interface Event {
   date: string;
   time: string;
   venue: string;
-  capacity: number;
-  registered: number;
   price: string;
   speakers: string[];
   status: string;
