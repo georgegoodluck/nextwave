@@ -26,7 +26,6 @@ export const CATEGORY_COLORS = {
   All: "bg-gold-100 text-gold-700",
 } as const;
 
-// Helper function to get status badge color
 export const getStatusColor = (status: string) => {
   switch (status.toLowerCase()) {
     case "upcoming":

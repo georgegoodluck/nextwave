@@ -22,6 +22,11 @@ export default function Registration() {
     resetForm,
   } = useRegistration();
 
+  // Filter out past events - only show upcoming events for registration
+  const activeEvents = UPCOMING_EVENTS.filter(
+    (event) => event.status?.toLowerCase() !== "past",
+  );
+
   if (submitted && selectedEvent) {
     return <SuccessMessage event={selectedEvent} />;
   }
@@ -53,7 +58,7 @@ export default function Registration() {
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {UPCOMING_EVENTS.map((event, index) => (
+          {activeEvents.map((event, index) => (
             <motion.div
               key={event.id}
               initial={{ opacity: 0, y: 30 }}
