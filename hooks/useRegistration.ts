@@ -55,13 +55,6 @@ export function useRegistration() {
       return;
     }
 
-    if (selectedEvent.registered >= selectedEvent.capacity) {
-      setError(
-        `Sorry, ${selectedEvent.title} is fully booked. Please select another event.`,
-      );
-      return;
-    }
-
     setIsLoading(true);
     setError("");
 

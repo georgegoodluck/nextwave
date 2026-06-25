@@ -9,7 +9,7 @@ interface SuccessMessageProps {
 
 export const SuccessMessage: React.FC<SuccessMessageProps> = ({ event }) => {
   return (
-    <section className="py-16 px-6 bg-white rounded-3xl max-w-2xl mx-auto shadow-sm border border-gray-100">
+    <section className="py-16 px-6 bg-white rounded-3xl max-w-2xl mx-auto shadow-sm border border-gray-100 mt-3">
       <div className="text-center">
         <div className="flex justify-center mb-6">
           <div className="bg-green-50 p-4 rounded-full">
