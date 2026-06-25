@@ -48,6 +48,15 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
               />
+              <SocialIcon
+                url="https://www.instagram.com/next_waveglobal/"
+                bgColor="#E4405F"
+                fgColor="#FFFFFF"
+                style={{ height: 36, width: 36 }}
+                className="hover:opacity-80 transition-opacity hover:scale-110"
+                target="_blank"
+                rel="noopener noreferrer"
+              />
             </div>
           </div>
 
