@@ -1,4 +1,3 @@
-// /data/programs.ts
 export interface Program {
   title: string;
   desc: string;
