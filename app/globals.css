@@ -9,7 +9,11 @@
 body {
   background-color: var(--nw-cream);
   color: var(--nw-charcoal);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-family:
+    var(--font-geist-sans),
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 @layer utilities {
@@ -20,8 +24,7 @@ body {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  
-  /* Creates the fade-out effect at the edges */
+
   .mask-fade {
     mask-image: linear-gradient(
       to right,
@@ -40,19 +43,54 @@ body {
   }
 }
 
-/* Smooth scrolling for the whole page */
 html {
   scroll-behavior: smooth;
 }
 
-/* Focus styles for accessibility */
 *:focus-visible {
   outline: 2px solid var(--nw-gold);
   outline-offset: 2px;
 }
 
-/* Loading animation */
-@keyframes pulse-dot {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 1; }
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--nw-gold);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9a7a1d;
+}
+
+/* Glow Animation */
+@keyframes glow {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Gradient Text */
+.text-gradient {
+  background: linear-gradient(135deg, var(--nw-gold), #d4a831);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }

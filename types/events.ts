@@ -6,12 +6,10 @@ export interface Event {
   date: string;
   time: string;
   venue: string;
-  capacity: number;
-  registered: number;
   price: string;
   speakers: string[];
   status: string;
-  image?: string; // Optional image field
+  image?: string;
 }
 
 export interface FormData {
@@ -27,3 +25,16 @@ export const CATEGORY_COLORS = {
   Lead: "bg-purple-100 text-purple-700",
   All: "bg-gold-100 text-gold-700",
 } as const;
+
+export const getStatusColor = (status: string) => {
+  switch (status.toLowerCase()) {
+    case "upcoming":
+      return "bg-green-500/20 text-green-400 border-green-500/30";
+    case "past":
+      return "bg-gray-500/20 text-gray-400 border-gray-500/30";
+    case "coming soon":
+      return "bg-yellow-500/20 text-yellow-400 border-yellow-500/30";
+    default:
+      return "bg-blue-500/20 text-blue-400 border-blue-500/30";
+  }
+};

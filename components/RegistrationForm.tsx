@@ -2,7 +2,7 @@
 
 import { Event } from "@/types/events";
 import { FormData } from "@/types/events";
-import { X, User, Mail, Phone, Calendar, MapPin, Users } from "lucide-react";
+import { X, User, Mail, Phone, Calendar, MapPin } from "lucide-react";
 
 interface RegistrationFormProps {
   event: Event;
@@ -48,10 +48,6 @@ export function RegistrationForm({
         <div className="flex items-center gap-2 text-sm text-gray-600">
           <MapPin size={16} className="text-[#B08D21]" />
           <span className="line-clamp-1">{event.venue}</span>
-        </div>
-        <div className="flex items-center gap-2 text-sm text-gray-600">
-          <Users size={16} className="text-[#B08D21]" />
-          <span>{event.registered} spots filled</span>
         </div>
         <div className="flex items-center gap-2 text-sm text-gray-600">
           <span className="font-semibold text-[#B08D21]">{event.price}</span>
