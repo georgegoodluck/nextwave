@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Calendar } from "lucide-react";
-import { UPCOMING_EVENTS } from "@/data/events"; // ✅ Now this exists
+import { UPCOMING_EVENTS } from "@/data/events";
 import { useRegistration } from "@/hooks/useRegistration";
 import { EventCard } from "@/components/EventCard";
 import { RegistrationForm } from "@/components/RegistrationForm";
