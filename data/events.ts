@@ -49,8 +49,8 @@ export const UPCOMING_EVENTS: Event[] = [
     image: "/events/breaking_into_tech.jpg",
   },
   {
-    id: "academic-excellence-summit",
-    title: "Academic Excellence Summit: Exam Warriors",
+    id: "leadership-in-action",
+    title: "Leadership In Action",
     description:
       "Master proven study techniques, time management hacks, and exam strategies used by first-class graduates and scholarship winners.",
     category: "Learn",
