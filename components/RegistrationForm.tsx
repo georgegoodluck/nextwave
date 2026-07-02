@@ -2,7 +2,7 @@
 
 import { Event } from "@/types/events";
 import { FormData } from "@/types/events";
-import { X, User, Mail, Phone, Calendar, MapPin } from "lucide-react";
+import { X, User, Mail, Phone, Calendar, MapPin, Clock, ArrowRight } from "lucide-react";
 
 interface RegistrationFormProps {
   event: Event;
@@ -24,45 +24,56 @@ export function RegistrationForm({
   onCancel,
 }: RegistrationFormProps) {
   return (
-    <div className="max-w-2xl mx-auto bg-gray-50 rounded-3xl p-8 border border-gray-200 shadow-lg">
+    <div className="w-full">
       {/* Header */}
-      <div className="flex items-start justify-between mb-6">
+      <div className="flex items-start justify-between mb-4 md:mb-6">
         <div>
-          <h3 className="text-2xl font-bold text-[#1A1A1A]">Register for</h3>
-          <p className="text-[#B08D21] font-semibold text-lg">{event.title}</p>
+          <h3 className="text-xl md:text-2xl font-bold text-[#1A1A1A]">
+            Register for
+          </h3>
+          <p className="text-[#B08D21] font-semibold text-base md:text-lg">
+            {event.title}
+          </p>
         </div>
         <button
           onClick={onCancel}
           className="p-2 hover:bg-gray-200 rounded-full transition-colors"
+          aria-label="Close registration"
         >
           <X size={20} className="text-gray-600" />
         </button>
       </div>
 
-      {/* Event Summary */}
-      <div className="grid grid-cols-2 gap-3 mb-6 p-4 bg-white rounded-xl border border-gray-100">
-        <div className="flex items-center gap-2 text-sm text-gray-600">
-          <Calendar size={16} className="text-[#B08D21]" />
-          <span>{event.date}</span>
+      {/* Event Summary - Mobile Optimized */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 mb-4 md:mb-6 p-3 md:p-4 bg-white rounded-xl border border-gray-100">
+        <div className="flex items-center gap-2 text-xs md:text-sm text-gray-600">
+          <Calendar size={14} className="text-[#B08D21] shrink-0" />
+          <span className="truncate">{event.date}</span>
         </div>
-        <div className="flex items-center gap-2 text-sm text-gray-600">
-          <MapPin size={16} className="text-[#B08D21]" />
-          <span className="line-clamp-1">{event.venue}</span>
+        <div className="flex items-center gap-2 text-xs md:text-sm text-gray-600">
+          <Clock size={14} className="text-[#B08D21] shrink-0" />
+          <span className="truncate">{event.time}</span>
         </div>
-        <div className="flex items-center gap-2 text-sm text-gray-600">
-          <span className="font-semibold text-[#B08D21]">{event.price}</span>
+        <div className="flex items-center gap-2 text-xs md:text-sm text-gray-600 sm:col-span-2">
+          <MapPin size={14} className="text-[#B08D21] shrink-0" />
+          <span className="truncate">{event.venue}</span>
+        </div>
+        <div className="flex items-center gap-2 text-xs md:text-sm text-gray-600 sm:col-span-2">
+          <span className="font-semibold text-[#B08D21] bg-[#B08D21]/10 px-3 py-0.5 rounded-full">
+            {event.price}
+          </span>
         </div>
       </div>
 
       {/* Form */}
-      <form onSubmit={onSubmit} className="space-y-4">
+      <form onSubmit={onSubmit} className="space-y-3 md:space-y-4">
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-1.5">
             Full Name <span className="text-red-500">*</span>
           </label>
           <div className="relative">
             <User
-              size={18}
+              size={16}
               className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
             />
             <input
@@ -71,19 +82,19 @@ export function RegistrationForm({
               value={formData.fullName}
               onChange={onChange}
               required
-              className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:border-[#B08D21] focus:ring-2 focus:ring-[#B08D21]/20 outline-none transition-all"
+              className="w-full pl-9 pr-3 py-2.5 md:py-3 bg-white border border-gray-200 rounded-xl focus:border-[#B08D21] focus:ring-2 focus:ring-[#B08D21]/20 outline-none transition-all text-sm md:text-base"
               placeholder="Enter your full name"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-1.5">
             Email Address <span className="text-red-500">*</span>
           </label>
           <div className="relative">
             <Mail
-              size={18}
+              size={16}
               className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
             />
             <input
@@ -92,20 +103,20 @@ export function RegistrationForm({
               value={formData.email}
               onChange={onChange}
               required
-              className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:border-[#B08D21] focus:ring-2 focus:ring-[#B08D21]/20 outline-none transition-all"
+              className="w-full pl-9 pr-3 py-2.5 md:py-3 bg-white border border-gray-200 rounded-xl focus:border-[#B08D21] focus:ring-2 focus:ring-[#B08D21]/20 outline-none transition-all text-sm md:text-base"
               placeholder="you@example.com"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-1.5">
             Phone Number{" "}
             <span className="text-gray-400 text-xs">(Optional)</span>
           </label>
           <div className="relative">
             <Phone
-              size={18}
+              size={16}
               className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
             />
             <input
@@ -113,14 +124,14 @@ export function RegistrationForm({
               name="phone"
               value={formData.phone || ""}
               onChange={onChange}
-              className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:border-[#B08D21] focus:ring-2 focus:ring-[#B08D21]/20 outline-none transition-all"
+              className="w-full pl-9 pr-3 py-2.5 md:py-3 bg-white border border-gray-200 rounded-xl focus:border-[#B08D21] focus:ring-2 focus:ring-[#B08D21]/20 outline-none transition-all text-sm md:text-base"
               placeholder="+234 800 000 0000"
             />
           </div>
         </div>
 
         {error && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">
+          <div className="p-3 md:p-4 bg-red-50 border border-red-200 rounded-xl text-red-600 text-xs md:text-sm">
             {error}
           </div>
         )}
@@ -128,12 +139,12 @@ export function RegistrationForm({
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-4 bg-[#B08D21] hover:bg-[#9A7A1D] text-white font-bold rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full py-3 md:py-4 bg-[#B08D21] hover:bg-[#9A7A1D] text-white font-bold rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm md:text-base"
         >
           {isLoading ? (
             <>
               <svg
-                className="animate-spin h-5 w-5 text-white"
+                className="animate-spin h-4 w-4 md:h-5 md:w-5 text-white"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -155,11 +166,14 @@ export function RegistrationForm({
               Registering...
             </>
           ) : (
-            "Complete Registration →"
+            <>
+              Complete Registration
+              <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
+            </>
           )}
         </button>
 
-        <p className="text-xs text-gray-500 text-center mt-4">
+        <p className="text-xs text-gray-500 text-center mt-3 md:mt-4">
           By registering, you agree to our Terms of Service and Privacy Policy.
         </p>
       </form>
