@@ -271,7 +271,7 @@ export default function Registration() {
             viewport={{ once: true }}
             className="mt-8 md:mt-12 text-center"
           >
-            <div className="bg-gradient-to-r from-[#B08D21]/10 to-[#B08D21]/5 rounded-2xl p-6 md:p-8 border border-[#B08D21]/20">
+            <div className="bg-linear-to-r from-[#B08D21]/10 to-[#B08D21]/5 rounded-2xl p-6 md:p-8 border border-[#B08D21]/20">
               <div className="flex items-center justify-center gap-2 mb-2">
                 <Zap className="w-5 h-5 text-[#B08D21]" />
                 <span className="font-bold text-[#1A1A1A]">Why Join?</span>
