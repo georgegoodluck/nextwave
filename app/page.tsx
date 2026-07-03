@@ -15,17 +15,16 @@ export default function Home() {
 
   const handleRegister = (eventId: string) => {
     setSelectedEventId(eventId);
-    // The Registration component will handle the actual registration flow
   };
 
   return (
-    <main>
+    <main className="overflow-x-hidden">
       <Navbar />
       <Hero />
       <Story />
       <Pillars />
       <Programs />
-      <Registration />
+      <Registration autoSelectEventId={selectedEventId} />
       <Footer />
 
       {/* Event Popup */}
