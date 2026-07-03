@@ -54,7 +54,6 @@ export default function Registration({ autoSelectEventId }: RegistrationProps) {
       const event = UPCOMING_EVENTS.find((e) => e.id === autoSelectEventId);
       if (event && event.status?.toLowerCase() !== "past") {
         handleEventSelect(event);
-        // Auto expand on mobile
         if (isMobile) {
           setExpandedEvent(event.id);
         }
@@ -62,12 +61,11 @@ export default function Registration({ autoSelectEventId }: RegistrationProps) {
     }
   }, [autoSelectEventId, handleEventSelect, isMobile]);
 
-  // Filter out past events - only show upcoming events for registration
+  // Filter out past events
   const activeEvents = UPCOMING_EVENTS.filter(
     (event) => event.status?.toLowerCase() !== "past",
   );
 
-  // Get upcoming events count
   const upcomingCount = activeEvents.filter(
     (e) => e.status?.toLowerCase() === "upcoming",
   ).length;
@@ -102,7 +100,7 @@ export default function Registration({ autoSelectEventId }: RegistrationProps) {
           </p>
         </motion.div>
 
-        {/* Stats Bar - Mobile Optimized */}
+        {/* Stats Bar */}
         <div className="grid grid-cols-3 md:grid-cols-4 gap-2 md:gap-4 mb-6 md:mb-12">
           <div className="bg-gray-50 rounded-xl p-2.5 md:p-4 text-center border border-gray-100">
             <div className="text-[#B08D21] font-bold text-base md:text-2xl">
@@ -136,7 +134,7 @@ export default function Registration({ autoSelectEventId }: RegistrationProps) {
           </div>
         </div>
 
-        {/* Events Grid - Mobile Optimized */}
+        {/* Events Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-6 md:mb-16">
           {activeEvents.map((event, index) => {
             const isUpcoming = event.status?.toLowerCase() === "upcoming";
@@ -167,7 +165,7 @@ export default function Registration({ autoSelectEventId }: RegistrationProps) {
                           : isUpcoming
                             ? "border-[#B08D21]/30 hover:border-[#B08D21]/50"
                             : "border-gray-200 hover:border-[#B08D21]/50"
-                      } ${isUpcoming ? "bg-linear-to-r from-[#B08D21]/5 to-transparent" : ""}`}
+                      } ${isUpcoming ? "bg-gradient-to-r from-[#B08D21]/5 to-transparent" : ""}`}
                     >
                       <div className="flex items-start justify-between">
                         <div className="flex-1 min-w-0">
@@ -287,7 +285,7 @@ export default function Registration({ autoSelectEventId }: RegistrationProps) {
           })}
         </div>
 
-        {/* Registration Form - Mobile Optimized */}
+        {/* Registration Form */}
         <AnimatePresence>
           {selectedEvent && (
             <motion.div
@@ -298,7 +296,6 @@ export default function Registration({ autoSelectEventId }: RegistrationProps) {
               className="relative"
             >
               <div className="bg-gray-50 rounded-2xl md:rounded-3xl p-3 md:p-8 border border-gray-200 shadow-lg">
-                {/* Mobile: Selected event banner */}
                 <div className="md:hidden mb-3 p-3 bg-white rounded-xl border border-[#B08D21]/20 shadow-sm">
                   <div className="flex items-center justify-between">
                     <div>
@@ -330,7 +327,7 @@ export default function Registration({ autoSelectEventId }: RegistrationProps) {
           )}
         </AnimatePresence>
 
-        {/* Call to Action - Mobile Optimized */}
+        {/* Call to Action */}
         {!selectedEvent && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -338,7 +335,7 @@ export default function Registration({ autoSelectEventId }: RegistrationProps) {
             viewport={{ once: true }}
             className="mt-6 md:mt-12"
           >
-            <div className="bg-linear-to-r from-[#B08D21]/10 to-[#B08D21]/5 rounded-2xl p-4 md:p-8 border border-[#B08D21]/20">
+            <div className="bg-gradient-to-r from-[#B08D21]/10 to-[#B08D21]/5 rounded-2xl p-4 md:p-8 border border-[#B08D21]/20">
               <div className="flex items-center justify-center gap-2 mb-2">
                 <Zap className="w-4 h-4 md:w-5 md:h-5 text-[#B08D21]" />
                 <span className="font-bold text-sm md:text-base text-[#1A1A1A]">

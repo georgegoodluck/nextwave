@@ -6,74 +6,13 @@
   --nw-cream: #fdfbf7;
 }
 
-/* Base Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 body {
   background-color: var(--nw-cream);
   color: var(--nw-charcoal);
-  font-family:
-    var(--font-geist-sans),
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    "Helvetica Neue",
-    sans-serif;
-  line-height: 1.6;
-  overflow-x: hidden;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
-
-/* Typography */
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-/* Links */
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-/* Focus States */
-*:focus-visible {
-  outline: 2px solid var(--nw-gold);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-/* Selection */
-::selection {
-  background-color: var(--nw-gold);
-  color: white;
-}
-
-::-moz-selection {
-  background-color: var(--nw-gold);
-  color: white;
-}
-
-/* ============================================
-   CUSTOM UTILITIES
-   ============================================ */
 
 @layer utilities {
-  /* Hide scrollbar but keep functionality */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
@@ -82,7 +21,6 @@ a {
     scrollbar-width: none;
   }
 
-  /* Fade edges for horizontal scrolling */
   .mask-fade {
     mask-image: linear-gradient(
       to right,
@@ -100,40 +38,6 @@ a {
     );
   }
 
-  /* Gradient text */
-  .text-gradient {
-    background: linear-gradient(135deg, var(--nw-gold), #d4a831);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  /* Glow animation */
-  .animate-glow {
-    animation: glow 2s ease-in-out infinite;
-  }
-
-  /* Shimmer effect for loading states */
-  .shimmer {
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.05) 50%,
-      transparent 100%
-    );
-    background-size: 200% 100%;
-    animation: shimmer 2s infinite;
-  }
-
-  /* Safe area insets for notched phones */
-  .safe-bottom {
-    padding-bottom: max(1rem, env(safe-area-inset-bottom));
-  }
-  .safe-top {
-    padding-top: max(1rem, env(safe-area-inset-top));
-  }
-
-  /* Line clamp utilities */
   .line-clamp-1 {
     display: -webkit-box;
     -webkit-line-clamp: 1;
@@ -154,108 +58,33 @@ a {
   }
 }
 
-/* ============================================
-   SCROLLBAR STYLES
-   ============================================ */
-
-/* Custom Scrollbar - Global */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+html {
+  scroll-behavior: smooth;
 }
 
+*:focus-visible {
+  outline: 2px solid var(--nw-gold);
+  outline-offset: 2px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb {
   background: var(--nw-gold);
   border-radius: 4px;
-  transition: background 0.3s ease;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background: #9a7a1d;
 }
 
-/* Firefox scrollbar */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--nw-gold) #f1f1f1;
-}
-
-/* ============================================
-   KEYFRAME ANIMATIONS
-   ============================================ */
-
-/* Glow Animation */
-@keyframes glow {
-  0%, 100% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-/* Shimmer Animation */
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-/* Fade In Animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Slide In Animation */
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Scale In Animation */
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Pulse Animation */
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-/* Scroll Indicator Animation */
+/* Animations */
 @keyframes scrollIndicator {
   0% {
     transform: translateX(0);
@@ -265,51 +94,26 @@ a {
   }
 }
 
-/* Bounce Animation */
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-/* ============================================
-   ANIMATION CLASSES
-   ============================================ */
-
-.animate-fade-in {
-  animation: fadeIn 0.5s ease-out forwards;
-}
-
-.animate-slide-in {
-  animation: slideIn 0.5s ease-out forwards;
-}
-
-.animate-scale-in {
-  animation: scaleIn 0.3s ease-out forwards;
-}
-
-.animate-pulse-slow {
-  animation: pulse 2s ease-in-out infinite;
-}
-
 .animate-scroll-indicator {
   animation: scrollIndicator 2s ease-in-out infinite;
 }
 
-.animate-bounce-slow {
-  animation: bounce 2s ease-in-out infinite;
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
-/* ============================================
-   MOBILE OPTIMIZATIONS
-   ============================================ */
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
 
-/* Small screens (phones) */
+/* Mobile Optimizations */
 @media (max-width: 640px) {
-  /* Better touch targets - minimum 44px */
   button,
   a,
   [role="button"],
@@ -319,174 +123,36 @@ a {
     min-height: 44px;
     min-width: 44px;
   }
-
-  /* Prevent zoom on input focus (iOS) */
   input,
   select,
   textarea {
     font-size: 16px !important;
   }
-
-  /* Remove tap highlight on mobile */
   * {
     -webkit-tap-highlight-color: transparent;
   }
-
-  /* Better container padding */
-  .container {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-
-  /* Smaller headings on mobile */
-  h1 {
-    font-size: 2rem;
-  }
-  h2 {
-    font-size: 1.75rem;
-  }
-  h3 {
-    font-size: 1.5rem;
-  }
-
-  /* Better spacing for sections */
-  section {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-  }
-
-  /* Scrollbar for mobile - thinner */
   ::-webkit-scrollbar {
     width: 4px;
     height: 4px;
   }
-
-  /* Disable hover effects on mobile */
-  .hover\:scale-105:hover {
-    transform: none !important;
-  }
-  .hover\:-translate-y-2:hover {
-    transform: none !important;
-  }
-
-  /* Better card spacing on mobile */
-  .card-grid {
-    gap: 1rem;
-  }
-
-  /* Full width buttons on mobile */
-  .button-full-mobile {
-    width: 100%;
-  }
-
-  /* Stack items on mobile */
-  .stack-mobile {
-    flex-direction: column;
-  }
 }
 
-/* Medium screens (tablets) */
-@media (min-width: 641px) and (max-width: 1024px) {
-  /* Tablet optimizations */
-  .container {
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
-}
-
-/* ============================================
-   DARK MODE SUPPORT (Optional)
-   ============================================ */
-
-@media (prefers-color-scheme: dark) {
-  /* You can add dark mode styles here if needed */
-  /* Currently using a light theme with dark sections */
-}
-
-/* ============================================
-   PRINT STYLES
-   ============================================ */
-
-@media print {
-  .no-print {
-    display: none !important;
-  }
-  body {
-    background: white !important;
-    color: black !important;
-  }
-  section {
-    page-break-inside: avoid;
-  }
-}
-
-/* ============================================
-   ACCESSIBILITY
-   ============================================ */
-
-/* Reduced motion preferences */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  * {
     animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }
 
-/* High contrast mode */
-@media (prefers-contrast: high) {
-  :root {
-    --nw-gold: #8a6d1a;
-  }
-  .text-gray-400 {
-    color: #666 !important;
-  }
-  .border-gray-100 {
-    border-color: #ccc !important;
-  }
-}
-
-/* ============================================
-   TAILWIND V4 COMPATIBILITY FIXES
-   ============================================ */
-
-/* Gradient utilities for Tailwind v4 */
+/* Tailwind v4 fixes */
 .bg-gradient-to-r {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
-
-.bg-gradient-to-l {
-  background-image: linear-gradient(to left, var(--tw-gradient-stops));
-}
-
-.bg-gradient-to-t {
-  background-image: linear-gradient(to top, var(--tw-gradient-stops));
-}
-
-.bg-gradient-to-b {
-  background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
-}
-
-.bg-gradient-to-tr {
-  background-image: linear-gradient(to top right, var(--tw-gradient-stops));
-}
-
-.bg-gradient-to-tl {
-  background-image: linear-gradient(to top left, var(--tw-gradient-stops));
-}
-
 .bg-gradient-to-br {
   background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
 }
 
-.bg-gradient-to-bl {
-  background-image: linear-gradient(to bottom left, var(--tw-gradient-stops));
-}
-
-/* Z-index layering fixes */
 .z-50 {
   z-index: 50;
 }
@@ -501,59 +167,4 @@ a {
 }
 .z-10 {
   z-index: 10;
-}
-
-/* ============================================
-   BRAND SPECIFIC STYLES
-   ============================================ */
-
-/* Gold accent utilities */
-.border-gold {
-  border-color: var(--nw-gold);
-}
-.bg-gold {
-  background-color: var(--nw-gold);
-}
-.text-gold {
-  color: var(--nw-gold);
-}
-.hover\:text-gold:hover {
-  color: var(--nw-gold);
-}
-.hover\:bg-gold:hover {
-  background-color: var(--nw-gold);
-}
-
-/* NextWave specific */
-.nextwave-gradient {
-  background: linear-gradient(135deg, var(--nw-gold), #d4a831);
-}
-
-.nextwave-glow {
-  box-shadow: 0 0 20px rgba(176, 141, 33, 0.2);
-}
-
-.nextwave-glow:hover {
-  box-shadow: 0 0 30px rgba(176, 141, 33, 0.4);
-}
-
-/* Gold underline */
-.gold-underline {
-  position: relative;
-}
-.gold-underline::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: var(--nw-gold);
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.3s ease;
-}
-.gold-underline:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
 }
