@@ -10,6 +10,14 @@ export interface Program {
 
 export const PROGRAMS: Program[] = [
   {
+    title: "Leadership in Action",
+    desc: "", 
+    date: "Coming Soon",
+    time: "TBA",
+    venue: "Virtual & Physical",
+    status: "Coming Soon",
+  },
+  {
     title: "Scholar Reboot",
     desc: "Academic clarity and strategy for students aiming higher.",
     date: "18th October, 2025",
@@ -35,13 +43,5 @@ export const PROGRAMS: Program[] = [
     venue: "Virtual Event",
     status: "Past",
     image: "/events/breaking_into_tech.jpg",
-  },
-  {
-    title: "Coming Soon",
-    desc: "Anticipate!!!!",
-    date: "Coming Soon",
-    time: "TBA",
-    venue: "Virtual & Physical",
-    status: "Coming Soon",
   },
 ];

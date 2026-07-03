@@ -13,7 +13,6 @@ import {
   Zap,
   Award,
   Target,
-  ArrowRight,
 } from "lucide-react";
 import { UPCOMING_EVENTS } from "@/data/events";
 import { useRegistration } from "@/hooks/useRegistration";
