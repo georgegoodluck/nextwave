@@ -9,11 +9,7 @@
 body {
   background-color: var(--nw-cream);
   color: var(--nw-charcoal);
-  font-family:
-    var(--font-geist-sans),
-    system-ui,
-    -apple-system,
-    sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
 @layer utilities {
@@ -41,6 +37,25 @@ body {
       transparent
     );
   }
+
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }
 
 html {
@@ -54,43 +69,102 @@ html {
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
-
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb {
   background: var(--nw-gold);
   border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background: #9a7a1d;
 }
 
-/* Glow Animation */
-@keyframes glow {
+/* Animations */
+@keyframes scrollIndicator {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.animate-scroll-indicator {
+  animation: scrollIndicator 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
   0%,
   100% {
-    opacity: 0.5;
-  }
-  50% {
     opacity: 1;
   }
+  50% {
+    opacity: 0.5;
+  }
 }
 
-.animate-glow {
-  animation: glow 2s ease-in-out infinite;
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
 }
 
-/* Gradient Text */
-.text-gradient {
-  background: linear-gradient(135deg, var(--nw-gold), #d4a831);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* Mobile Optimizations */
+@media (max-width: 640px) {
+  button,
+  a,
+  [role="button"],
+  input,
+  select,
+  textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Tailwind v4 fixes */
+.bg-gradient-to-r {
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
+}
+.bg-gradient-to-br {
+  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+}
+
+.z-50 {
+  z-index: 50;
+}
+.z-40 {
+  z-index: 40;
+}
+.z-30 {
+  z-index: 30;
+}
+.z-20 {
+  z-index: 20;
+}
+.z-10 {
+  z-index: 10;
 }

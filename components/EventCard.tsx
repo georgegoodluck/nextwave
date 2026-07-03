@@ -3,6 +3,7 @@
 import { Event } from "@/types/events";
 import { MapPin, Calendar as CalendarIcon, Clock, Users } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 
 interface EventCardProps {
   event: Event;
@@ -13,6 +14,7 @@ interface EventCardProps {
 export function EventCard({ event, isSelected, onSelect }: EventCardProps) {
   const isPast = event.status?.toLowerCase() === "past";
   const isUpcoming = event.status?.toLowerCase() === "upcoming";
+  const [imgError, setImgError] = useState(false);
 
   return (
     <div
@@ -27,12 +29,14 @@ export function EventCard({ event, isSelected, onSelect }: EventCardProps) {
     >
       {/* Image */}
       <div className="relative h-48 w-full bg-gray-100">
-        {event.image ? (
+        {event.image && !imgError ? (
           <Image
             src={event.image}
             alt={event.title}
             fill
             className="object-cover"
+            onError={() => setImgError(true)}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#FDF7E7] to-[#B08D21]/10">

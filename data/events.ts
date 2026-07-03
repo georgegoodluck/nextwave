@@ -52,14 +52,14 @@ export const UPCOMING_EVENTS: Event[] = [
     id: "leadership-in-action",
     title: "Leadership In Action",
     description:
-      "Master proven study techniques, time management hacks, and exam strategies used by first-class graduates and scholarship winners.",
-    category: "Learn",
-    date: "August 9, 2026",
-    time: "10:00 AM - 3:00 PM WAT",
-    venue: "To be announced",
+      "Building Influence, Creating Impact & Driving Growth as a Student. Master proven strategies used by top leaders and scholarship winners.",
+    category: "Lead",
+    date: "July 18, 2026",
+    time: "7:00 PM - 9:00 PM WAT",
+    venue: "Virtual (Google Meet)",
     price: "Free",
-    speakers: ["Prof. Funmi Adebayo", "Emeka Nwosu"],
+    speakers: ["Dr. Bush", "Senator"],
     status: "Upcoming",
-    image: "/events/leadership.jpg",
+    image: "/events/leadership.jpg", // ✅ Added image path
   },
 ];
