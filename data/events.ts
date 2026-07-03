@@ -53,7 +53,7 @@ export const UPCOMING_EVENTS: Event[] = [
     title: "Leadership In Action",
     description:
       "Master proven study techniques, time management hacks, and exam strategies used by first-class graduates and scholarship winners.",
-    category: "Lead ",
+    category: "Lead",
     date: "July 18, 2026",
     time: "7:00 PM - 9:00 PM WAT",
     venue: "Virtual(Google Meet)",  
