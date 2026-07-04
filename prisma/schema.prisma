@@ -4,7 +4,6 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  // ❌ REMOVE this line: url = env("DATABASE_URL")
 }
 
 model Event {
@@ -18,8 +17,8 @@ model Event {
   capacity    Int
   registered  Int      @default(0)
   price       String
-  speakers    String   // JSON string
-  status      String
+  speakers    String   @default("[]")
+  status      String   @default("Upcoming")
   image       String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -29,7 +28,7 @@ model Event {
 model Registration {
   id        String   @id @default(cuid())
   eventId   String
-  event     Event    @relation(fields: [eventId], references: [id])
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
   fullName  String
   email     String
   phone     String?

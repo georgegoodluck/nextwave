@@ -1,3 +1,4 @@
+// lib/email.ts
 import nodemailer from "nodemailer";
 
 export interface EmailOptions {
@@ -17,29 +18,47 @@ export interface RegistrationEmailData {
 }
 
 class EmailService {
-  private transporter: nodemailer.Transporter;
+  private transporter: nodemailer.Transporter | null = null;
+  private isConfigured: boolean = false;
 
   constructor() {
-    if (
-      !process.env.SMTP_HOST ||
-      !process.env.SMTP_USER ||
-      !process.env.SMTP_PASS
-    ) {
-      throw new Error("SMTP configuration is missing");
-    }
+    this.isConfigured = this.initializeTransporter();
+  }
 
-    this.transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT || "587"),
-      secure: process.env.SMTP_SECURE === "true",
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
+  private initializeTransporter(): boolean {
+    try {
+      if (
+        !process.env.SMTP_HOST ||
+        !process.env.SMTP_USER ||
+        !process.env.SMTP_PASS
+      ) {
+        console.warn("⚠️ SMTP configuration missing - Email service disabled");
+        return false;
+      }
+
+      this.transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port: parseInt(process.env.SMTP_PORT || "587"),
+        secure: process.env.SMTP_SECURE === "true",
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS,
+        },
+      });
+
+      return true;
+    } catch (error) {
+      console.warn("⚠️ Failed to initialize email service:", error);
+      return false;
+    }
   }
 
   async sendEmail(options: EmailOptions): Promise<void> {
+    if (!this.isConfigured || !this.transporter) {
+      console.log("📧 Email service disabled - skipping email to:", options.to);
+      return;
+    }
+
     try {
       await this.transporter.sendMail({
         from:
@@ -50,13 +69,15 @@ class EmailService {
         html: options.html,
         text: options.text || options.html.replace(/<[^>]*>/g, ""),
       });
+      console.log("✅ Email sent to:", options.to);
     } catch (error) {
-      console.error("Email sending error:", error);
+      console.error("❌ Email sending error:", error);
       throw new Error("Failed to send email");
     }
   }
 
   generateRegistrationConfirmation(data: RegistrationEmailData): string {
+    // ... (keep your existing HTML template)
     return `
       <!DOCTYPE html>
       <html>
@@ -86,14 +107,12 @@ class EmailService {
               <div class="logo">Nextwave <span>Global</span></div>
               <div class="subtitle">Learn. Earn. Lead.</div>
             </div>
-
             <span class="success-icon">🎉</span>
             <h2 style="text-align: center; color: #1a1a1a;">Registration Confirmed!</h2>
             <p style="text-align: center; color: #4b5563;">
               Hi <strong>${data.name}</strong>, you're officially registered for
               <strong class="highlight">${data.eventTitle}</strong>.
             </p>
-
             <div class="event-details">
               <h3>📅 Event Details</h3>
               <div class="detail-row">
@@ -113,27 +132,23 @@ class EmailService {
                 <span class="value">✓ Confirmed</span>
               </div>
             </div>
-
             <div style="background: #fef9e7; border-radius: 8px; padding: 16px; margin: 20px 0; border-left: 4px solid #b08d21;">
               <p style="margin: 0; font-size: 14px; color: #4b5563;">
                 📌 <strong>What's next?</strong> We'll send you the event link and
                 reminders closer to the date. Stay tuned!
               </p>
             </div>
-
             <div style="text-align: center; margin: 24px 0;">
-              <a href="${process.env.NEXT_PUBLIC_APP_URL}" class="button">
+              <a href="${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}" class="button">
                 Visit Our Website
               </a>
             </div>
-
             <p style="font-size: 14px; color: #4b5563;">
               Have questions? Reply to this email or reach out to us at
               <a href="mailto:nextwaveglobal509@gmail.com" style="color: #b08d21;">
                 nextwaveglobal509@gmail.com
               </a>
             </p>
-
             <div class="footer">
               <p>&copy; ${new Date().getFullYear()} NextWave Global. All rights reserved.</p>
               <p>
@@ -149,6 +164,7 @@ class EmailService {
   }
 
   generateAdminNotification(data: RegistrationEmailData): string {
+    // ... (keep your existing admin notification template)
     return `
       <!DOCTYPE html>
       <html>
@@ -174,13 +190,10 @@ class EmailService {
               <div class="logo">Nextwave <span>Global</span></div>
               <div class="subtitle">New Registration Alert</div>
             </div>
-
             <div style="text-align: center; margin-bottom: 20px;">
               <span class="badge">NEW REGISTRATION</span>
             </div>
-
             <h3 style="color: #1a1a1a;">A new participant has registered!</h3>
-
             <div class="event-details">
               <h3>👤 Participant Details</h3>
               <div class="detail-row">
@@ -208,14 +221,12 @@ class EmailService {
                 <span class="value">${data.eventVenue}</span>
               </div>
             </div>
-
             <div style="background: #fef9e7; border-radius: 8px; padding: 16px; margin: 20px 0; border-left: 4px solid #b08d21;">
               <p style="margin: 0; font-size: 14px; color: #4b5563;">
                 📌 <strong>Action Required:</strong> Please review this registration and
                 mark the participant's status in the dashboard.
               </p>
             </div>
-
             <div class="footer">
               <p>&copy; ${new Date().getFullYear()} NextWave Global - Admin Notification</p>
               <p style="font-size: 10px; color: #9ca3af;">

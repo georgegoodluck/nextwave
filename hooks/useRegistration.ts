@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Event, FormData } from "@/types/events";
 
 export function useRegistration() {
@@ -6,6 +6,7 @@ export function useRegistration() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+
   const [formData, setFormData] = useState<FormData>({
     fullName: "",
     email: "",
@@ -13,91 +14,120 @@ export function useRegistration() {
     phone: "",
   });
 
-  const validateForm = () => {
+  const validateForm = useCallback(() => {
     if (!formData.fullName.trim()) {
       setError("Full name is required");
       return false;
     }
+
     if (!formData.email.trim()) {
       setError("Email is required");
       return false;
     }
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if (!emailRegex.test(formData.email)) {
       setError("Please enter a valid email address");
       return false;
     }
+
     return true;
-  };
+  }, [formData]);
 
-  const handleEventSelect = (event: Event) => {
-    setSelectedEvent(event);
-    setFormData((prev) => ({ ...prev, eventId: event.id }));
+  const handleEventSelect = useCallback((event: Event) => {
+    setSelectedEvent((prev) => {
+      if (prev?.id === event.id) return prev;
+      return event;
+    });
+
+    setFormData((prev) => {
+      if (prev.eventId === event.id) return prev;
+
+      return {
+        ...prev,
+        eventId: event.id,
+      };
+    });
+
     setError("");
-  };
+  }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    if (error) setError("");
-  };
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
 
-    if (!validateForm()) return;
+      if (error) setError("");
+    },
+    [error],
+  );
 
-    if (!selectedEvent) {
-      setError("Please select an event to register for");
-      return;
-    }
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
 
-    setIsLoading(true);
-    setError("");
+      if (!validateForm()) return;
 
-    try {
-      const response = await fetch("/api/registration", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fullName: formData.fullName,
-          email: formData.email,
-          phone: formData.phone || "",
-          eventId: selectedEvent.id,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Submission failed");
+      if (!selectedEvent) {
+        setError("Please select an event");
+        return;
       }
 
-      setSubmitted(true);
-    } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Something went wrong. Please try again.",
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      setIsLoading(true);
+      setError("");
 
-  const resetForm = () => {
-    setSelectedEvent(null);
-    setError("");
+      try {
+        const response = await fetch("/api/registration", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            fullName: formData.fullName,
+            email: formData.email,
+            phone: formData.phone,
+            eventId: selectedEvent.id,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Submission failed");
+        }
+
+        setSubmitted(true);
+      } catch (err) {
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Something went wrong. Please try again.",
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [formData, selectedEvent, validateForm],
+  );
+
+  const resetForm = useCallback(() => {
     setSubmitted(false);
+    setIsLoading(false);
+    setError("");
+    setSelectedEvent(null);
+
     setFormData({
       fullName: "",
       email: "",
       eventId: "",
       phone: "",
     });
-  };
+  }, []);
 
   return {
     submitted,
