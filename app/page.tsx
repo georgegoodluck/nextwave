@@ -18,7 +18,7 @@ export default function Home() {
   };
 
   return (
-    <main className="overflow-x-hidden">
+    <main className="min-h-screen bg-[#0d0d0d] overflow-x-hidden">
       <Navbar />
       <Hero />
       <Story />
@@ -26,8 +26,6 @@ export default function Home() {
       <Programs />
       <Registration autoSelectEventId={selectedEventId} />
       <Footer />
-
-      {/* Event Popup */}
       <EventPopupWrapper onRegister={handleRegister} />
     </main>
   );

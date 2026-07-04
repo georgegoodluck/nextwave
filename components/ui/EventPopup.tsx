@@ -6,14 +6,14 @@ import {
   X,
   Calendar,
   Clock,
-  MapPin,
   Sparkles,
   ArrowRight,
   Zap,
   Users,
-  Bell,
   Gift,
-  TrendingUp,
+  ShoppingBag,
+  Star,
+  CheckCircle,
 } from "lucide-react";
 import Image from "next/image";
 import { UPCOMING_EVENTS } from "@/data/events";
@@ -32,7 +32,7 @@ export function EventPopup({ onRegister }: EventPopupProps) {
   useEffect(() => {
     const hasSeenPopup = sessionStorage.getItem("hasSeenEventPopup");
     if (!hasSeenPopup && nextEvent) {
-      const timer = setTimeout(() => setIsOpen(true), 1200);
+      const timer = setTimeout(() => setIsOpen(true), 1500);
       return () => clearTimeout(timer);
     }
   }, [nextEvent]);
@@ -50,14 +50,6 @@ export function EventPopup({ onRegister }: EventPopupProps) {
         const section = document.getElementById("register");
         if (section) {
           section.scrollIntoView({ behavior: "smooth", block: "center" });
-          section.classList.add("ring-4", "ring-[#B08D21]", "ring-offset-4");
-          setTimeout(() => {
-            section.classList.remove(
-              "ring-4",
-              "ring-[#B08D21]",
-              "ring-offset-4",
-            );
-          }, 3000);
         }
       }, 300);
     }
@@ -73,104 +65,127 @@ export function EventPopup({ onRegister }: EventPopupProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm"
             onClick={handleClose}
           />
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 30 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 30 }}
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 50, scale: 0.9 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed bottom-0 left-0 right-0 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 z-50 max-w-[400px] w-full mx-auto bg-white rounded-t-3xl md:rounded-3xl shadow-2xl overflow-hidden"
+            className="fixed bottom-0 left-0 right-0 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 z-50 max-w-[400px] w-full mx-auto bg-[#1a1a1a] rounded-t-3xl md:rounded-2xl shadow-2xl overflow-hidden border border-[#333333]"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Drag Handle */}
-            <div className="md:hidden w-12 h-1 bg-gray-300 rounded-full mx-auto mt-2 mb-1" />
-
-            {/* Close */}
-            <button
-              onClick={handleClose}
-              className="absolute top-3 right-3 z-10 p-2 bg-black/5 hover:bg-black/10 rounded-full transition-colors"
-            >
-              <X className="w-5 h-5 text-gray-600" />
-            </button>
-
-            {/* Header Image */}
-            <div className="relative h-44 w-full">
-              {nextEvent.image ? (
-                <Image
-                  src={nextEvent.image}
-                  alt={nextEvent.title}
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              ) : (
-                <div className="w-full h-full bg-gradient-to-br from-[#B08D21]/30 to-[#B08D21]/5 flex items-center justify-center">
-                  <Sparkles className="w-12 h-12 text-[#B08D21] opacity-50" />
-                </div>
-              )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-
-              {/* Badges */}
-              <div className="absolute top-3 left-3 flex gap-2">
-                <span className="bg-[#B08D21] text-white text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 shadow-lg">
-                  <Bell className="w-3 h-3" />
-                  Upcoming
+            {/* Header */}
+            <div className="bg-gradient-to-r from-[#c9a84c] to-[#a8873a] px-5 py-3 flex items-center justify-between">
+              <div className="flex items-center gap-2 text-[#0d0d0d]">
+                <ShoppingBag className="w-4 h-4" />
+                <span className="text-sm font-bold tracking-wide">
+                  Add to Cart
                 </span>
-                <span className="bg-white/95 text-[#1A1A1A] text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 shadow-lg">
-                  <Gift className="w-3 h-3 text-[#B08D21]" />
-                  FREE
+                <span className="bg-[#0d0d0d]/20 text-[10px] px-2 py-0.5 rounded-full text-[#0d0d0d]">
+                  1 item
                 </span>
               </div>
-
-              {/* Title */}
-              <div className="absolute bottom-3 left-3 right-3">
-                <h3 className="text-white font-bold text-lg drop-shadow-lg">
-                  {nextEvent.title}
-                </h3>
-                <div className="flex items-center gap-2 mt-1 text-white/80 text-xs">
-                  <Calendar className="w-3.5 h-3.5" />
-                  <span>{nextEvent.date}</span>
-                  <span className="w-1 h-1 bg-white/40 rounded-full" />
-                  <Clock className="w-3.5 h-3.5" />
-                  <span>{nextEvent.time}</span>
-                </div>
-              </div>
+              <button
+                onClick={handleClose}
+                className="text-[#0d0d0d]/70 hover:text-[#0d0d0d] transition-colors p-1 touch-manipulation"
+              >
+                <X className="w-4 h-4" />
+              </button>
             </div>
 
             {/* Content */}
-            <div className="p-4">
-              {/* Quick Info */}
-              <div className="flex items-center gap-3 mb-3 text-xs">
-                <div className="flex items-center gap-1.5 text-gray-500">
-                  <MapPin className="w-3.5 h-3.5 text-[#B08D21]" />
-                  <span className="truncate">{nextEvent.venue}</span>
+            <div className="p-5">
+              <div className="flex gap-4">
+                {/* Event Image */}
+                <div className="relative w-24 h-24 rounded-xl overflow-hidden shrink-0 bg-[#0d0d0d] border border-[#333333]">
+                  {nextEvent.image ? (
+                    <Image
+                      src={nextEvent.image}
+                      alt={nextEvent.title}
+                      fill
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#c9a84c]/20 to-[#c9a84c]/5">
+                      <Sparkles className="w-6 h-6 text-[#c9a84c]" />
+                    </div>
+                  )}
+                  <div className="absolute top-1 right-1 bg-green-500 text-[#0d0d0d] text-[8px] font-bold px-1.5 py-0.5 rounded-full">
+                    FREE
+                  </div>
                 </div>
-                <div className="flex items-center gap-1.5 text-gray-500">
-                  <Users className="w-3.5 h-3.5 text-[#B08D21]" />
-                  <span>Limited</span>
+
+                {/* Event Info */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-1.5 mb-1 flex-wrap">
+                    <span className="bg-[#c9a84c]/10 text-[#c9a84c] text-[8px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                      {nextEvent.category}
+                    </span>
+                    <span className="bg-green-500/20 text-green-400 text-[8px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider flex items-center gap-0.5 border border-green-500/20">
+                      <Star className="w-2.5 h-2.5 fill-current" />
+                      Trending
+                    </span>
+                  </div>
+                  <h3 className="font-bold text-base text-white leading-tight line-clamp-1">
+                    {nextEvent.title}
+                  </h3>
+                  <p className="text-xs text-[#7a7270] mt-0.5 line-clamp-2">
+                    {nextEvent.description}
+                  </p>
+                  <div className="flex items-center gap-3 mt-1.5 text-[10px] text-[#7a7270]">
+                    <div className="flex items-center gap-1">
+                      <Calendar className="w-3 h-3 text-[#c9a84c]" />
+                      <span>{nextEvent.date}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Clock className="w-3 h-3 text-[#c9a84c]" />
+                      <span>{nextEvent.time}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Description */}
-              <p className="text-sm text-gray-600 leading-relaxed mb-3 line-clamp-2">
-                {nextEvent.description}
-              </p>
+              {/* Price & Action */}
+              <div className="flex items-center justify-between mt-4 pt-3 border-t border-[#333333]">
+                <div>
+                  <p className="text-[10px] text-[#7a7270]">Price</p>
+                  <p className="font-bold text-[#c9a84c] text-lg">FREE</p>
+                  <p className="text-[9px] text-[#7a7270] line-through">
+                    ₦0.00
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1 bg-[#0d0d0d] rounded-lg px-2 py-1 border border-[#333333]">
+                    <span className="text-xs font-medium text-[#7a7270]">
+                      Qty
+                    </span>
+                    <span className="text-sm font-bold text-white">1</span>
+                  </div>
+                  <button
+                    onClick={handleRegister}
+                    className="px-4 py-2.5 bg-[#c9a84c] hover:bg-[#a8873a] text-[#0d0d0d] font-bold rounded-lg transition-all flex items-center gap-2 text-sm shadow-lg shadow-[#c9a84c]/25 hover:shadow-[#c9a84c]/40 active:scale-95 touch-manipulation"
+                  >
+                    <span>Get It Now</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
 
               {/* Speakers */}
               {nextEvent.speakers && nextEvent.speakers.length > 0 && (
-                <div className="mb-3 p-2.5 bg-gradient-to-r from-[#B08D21]/5 to-transparent rounded-lg border border-[#B08D21]/10">
-                  <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5 flex items-center gap-2">
-                    <Users className="w-3.5 h-3.5 text-[#B08D21]" />
+                <div className="mt-3 pt-3 border-t border-[#333333]">
+                  <p className="text-[10px] font-semibold text-[#7a7270] uppercase tracking-wider flex items-center gap-1.5">
+                    <Users className="w-3 h-3 text-[#c9a84c]" />
                     Speakers
                   </p>
-                  <div className="flex flex-wrap gap-1.5">
+                  <div className="flex flex-wrap gap-1.5 mt-1">
                     {nextEvent.speakers.map((speaker) => (
                       <span
                         key={speaker}
-                        className="text-[10px] bg-white px-2.5 py-1 rounded-full border border-gray-200 text-gray-700"
+                        className="text-[10px] bg-[#0d0d0d] px-2.5 py-1 rounded-full border border-[#333333] text-[#b8b0a8]"
                       >
                         {speaker}
                       </span>
@@ -179,38 +194,37 @@ export function EventPopup({ onRegister }: EventPopupProps) {
                 </div>
               )}
 
-              {/* CTA */}
-              <div className="flex gap-2">
-                <button
-                  onClick={handleRegister}
-                  className="flex-1 py-3 bg-[#B08D21] hover:bg-[#9A7A1D] text-white font-bold rounded-lg transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#B08D21]/30 hover:shadow-[#B08D21]/50 hover:scale-[1.02] active:scale-95 text-sm"
-                >
-                  <span>Secure Your Spot</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={handleClose}
-                  className="px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg transition-colors text-sm"
-                >
-                  Later
-                </button>
+              {/* Trust Badges */}
+              <div className="mt-3 pt-3 border-t border-[#333333] flex flex-wrap items-center justify-between gap-1">
+                <div className="flex items-center gap-3">
+                  <span className="flex items-center gap-1 text-[9px] text-green-400">
+                    <CheckCircle className="w-3 h-3" />
+                    Free Entry
+                  </span>
+                  <span className="flex items-center gap-1 text-[9px] text-blue-400">
+                    <Zap className="w-3 h-3" />
+                    Limited Slots
+                  </span>
+                  <span className="flex items-center gap-1 text-[9px] text-purple-400">
+                    <Gift className="w-3 h-3" />
+                    Certificate
+                  </span>
+                </div>
+                <span className="text-[9px] text-[#7a7270]">
+                  {nextEvent.venue}
+                </span>
               </div>
+            </div>
 
-              {/* Trust */}
-              <div className="mt-2.5 flex flex-wrap items-center justify-center gap-2 text-[10px] text-gray-400">
-                <span className="flex items-center gap-1 bg-green-50 px-2 py-0.5 rounded-full text-green-700">
-                  <Zap className="w-3 h-3 text-[#B08D21]" />
-                  Free
-                </span>
-                <span className="flex items-center gap-1 bg-blue-50 px-2 py-0.5 rounded-full text-blue-700">
-                  <TrendingUp className="w-3 h-3" />
-                  Trending
-                </span>
-                <span className="flex items-center gap-1 bg-purple-50 px-2 py-0.5 rounded-full text-purple-700">
-                  <Gift className="w-3 h-3" />
-                  Certificate
-                </span>
-              </div>
+            {/* Footer */}
+            <div className="bg-[#0d0d0d] px-5 py-2.5 flex items-center justify-between border-t border-[#333333]">
+              <span className="text-[10px] text-[#7a7270]">
+                Secure checkout • Powered by NextWave
+              </span>
+              <span className="text-[10px] text-[#7a7270] flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                In stock
+              </span>
             </div>
           </motion.div>
         </>

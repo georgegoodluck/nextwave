@@ -5,19 +5,29 @@ import "./globals.css";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "NextWave",
-  description: "NextWave",
+  title: "NextWave Global | Learn. Earn. Lead.",
+  description:
+    "Empowering students to thrive beyond the classroom through transformative events and programs.",
   icons: {
     icon: "/logo.png",
+    apple: "/logo.png",
   },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+  },
+  themeColor: "#0d0d0d",
 };
 
 export default function RootLayout({
@@ -29,8 +39,9 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col bg-[#0d0d0d]">{children}</body>
     </html>
   );
 }
