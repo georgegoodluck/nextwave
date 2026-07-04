@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(request: NextRequest) {
   try {
     const { email, fullName, eventTitle, eventDate, eventVenue } =
       await request.json();
+
+    // Create Resend instance inside the function
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
     await resend.emails.send({
       from: "NextWave Global <noreply@nextwaveglobal.com>",
