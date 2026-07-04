@@ -22,20 +22,22 @@ export function AnimatedSectionHeader({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      className="text-center mb-16"
+      className="text-center mb-8 md:mb-16"
     >
       {icon && (
-        <div className="flex items-center justify-center gap-2 text-[#B08D21] font-bold mb-4">
+        <div className="inline-flex items-center gap-2 text-[#c9a84c] text-xs font-bold uppercase tracking-widest bg-[#c9a84c]/10 px-4 py-2 rounded-full mb-4 border border-[#c9a84c]/20">
           {icon}
-          <span className="uppercase tracking-widest text-sm">{subtitle}</span>
+          <span>{subtitle}</span>
         </div>
       )}
-      <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#1A1A1A]">
+      <h2 className="text-3xl md:text-5xl font-bold mb-3 text-white">
         {title}
-        {highlight && <span className="text-[#B08D21]"> {highlight}</span>}
+        {highlight && <span className="text-[#c9a84c]"> {highlight}</span>}
       </h2>
       {subtitle && !icon && (
-        <p className="text-gray-600 max-w-2xl mx-auto">{subtitle}</p>
+        <p className="text-[#7a7270] max-w-2xl mx-auto text-sm md:text-base">
+          {subtitle}
+        </p>
       )}
     </motion.div>
   );

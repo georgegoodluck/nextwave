@@ -20,9 +20,6 @@ export default function Programs() {
   const [showRightArrow, setShowRightArrow] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -69,26 +66,17 @@ export default function Programs() {
     }
   };
 
-  const handleTouchStart = (e: React.TouchEvent) => {
+  const scrollToIndex = (index: number) => {
     const container = scrollContainerRef.current;
     if (container) {
-      setIsDragging(true);
-      setStartX(e.touches[0].pageX - container.offsetLeft);
-      setScrollLeft(container.scrollLeft);
+      const cardWidth = container.children[0]?.clientWidth || 0;
+      const gap = 16;
+      container.scrollTo({
+        left: index * (cardWidth + gap),
+        behavior: "smooth",
+      });
     }
   };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging) return;
-    const container = scrollContainerRef.current;
-    if (container) {
-      const x = e.touches[0].pageX - container.offsetLeft;
-      const walk = (x - startX) * 1.5;
-      container.scrollLeft = scrollLeft - walk;
-    }
-  };
-
-  const handleTouchEnd = () => setIsDragging(false);
 
   const upcomingPrograms = PROGRAMS.filter(
     (p) =>
@@ -99,34 +87,35 @@ export default function Programs() {
   return (
     <section
       id="programs"
-      className="py-16 md:py-24 bg-[#1A1A1A] text-white relative overflow-hidden"
+      className="py-12 md:py-24 px-4 sm:px-6 relative overflow-hidden bg-[#0d0d0d]"
     >
       {/* Background Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#B08D21]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#c9a84c]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#c9a84c]/3 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+      <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
-        <div className="text-center mb-10 md:mb-16">
-          <div className="inline-flex items-center gap-2 text-[#B08D21] text-xs md:text-sm font-bold uppercase tracking-widest bg-[#B08D21]/10 px-4 py-2 rounded-full mb-4">
+        <div className="text-center mb-8 md:mb-12">
+          <div className="inline-flex items-center gap-2 text-[#c9a84c] text-xs font-bold uppercase tracking-widest bg-[#c9a84c]/10 px-4 py-2 rounded-full mb-4 border border-[#c9a84c]/20">
             <Sparkles className="w-4 h-4" />
             <span>Our Initiatives</span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-bold mt-2">
-            Programs That <span className="text-[#B08D21]">Transform</span>
+          <h2 className="text-3xl md:text-5xl font-bold mt-2 text-white">
+            Programs That <span className="text-[#c9a84c]">Transform</span>
           </h2>
-          <p className="text-gray-400 mt-3 max-w-2xl mx-auto text-sm md:text-base">
+          <p className="text-[#7a7270] mt-3 max-w-2xl mx-auto text-sm md:text-base">
             From academic excellence to career building, our initiatives are
             designed to equip you for success.
           </p>
 
-          <div className="flex items-center justify-center gap-4 mt-4">
-            <div className="flex items-center gap-2 text-gray-400 text-xs">
+          <div className="flex items-center justify-center gap-4 mt-4 flex-wrap">
+            <div className="flex items-center gap-2 text-[#7a7270] text-xs">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
               <span>{upcomingPrograms.length} Upcoming</span>
             </div>
-            <div className="w-px h-4 bg-gray-700" />
-            <div className="flex items-center gap-2 text-gray-400 text-xs">
-              <Users className="w-3.5 h-3.5 text-[#B08D21]" />
+            <div className="w-px h-4 bg-[#333333]" />
+            <div className="flex items-center gap-2 text-[#7a7270] text-xs">
+              <Users className="w-3.5 h-3.5 text-[#c9a84c]" />
               <span>Virtual & Physical</span>
             </div>
           </div>
@@ -134,11 +123,12 @@ export default function Programs() {
 
         {/* Programs Carousel */}
         <div className="relative">
-          {/* Arrows */}
+          {/* Desktop Arrows */}
           {!isMobile && showLeftArrow && (
             <button
               onClick={() => scroll("left")}
-              className="absolute -left-3 top-1/2 -translate-y-1/2 z-10 bg-black/80 hover:bg-[#B08D21] text-white p-2.5 rounded-full transition-all border border-[#B08D21]/30 hover:border-[#B08D21] shadow-lg hover:scale-110 active:scale-95"
+              className="absolute -left-3 top-1/2 -translate-y-1/2 z-10 bg-[#1a1a1a] hover:bg-[#c9a84c] text-[#b8b0a8] hover:text-[#0d0d0d] p-2.5 rounded-full transition-all border border-[#333333] hover:border-[#c9a84c] shadow-lg hover:scale-110 active:scale-95 touch-manipulation"
+              aria-label="Scroll left"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
@@ -146,22 +136,20 @@ export default function Programs() {
           {!isMobile && showRightArrow && (
             <button
               onClick={() => scroll("right")}
-              className="absolute -right-3 top-1/2 -translate-y-1/2 z-10 bg-black/80 hover:bg-[#B08D21] text-white p-2.5 rounded-full transition-all border border-[#B08D21]/30 hover:border-[#B08D21] shadow-lg hover:scale-110 active:scale-95"
+              className="absolute -right-3 top-1/2 -translate-y-1/2 z-10 bg-[#1a1a1a] hover:bg-[#c9a84c] text-[#b8b0a8] hover:text-[#0d0d0d] p-2.5 rounded-full transition-all border border-[#333333] hover:border-[#c9a84c] shadow-lg hover:scale-110 active:scale-95 touch-manipulation"
+              aria-label="Scroll right"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
           )}
 
-          {/* Scroll Container - Fixed width cards */}
+          {/* Scroll Container */}
           <div
             ref={scrollContainerRef}
             className="flex gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory py-4 scrollbar-custom"
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
             style={{
               scrollbarWidth: "thin",
-              scrollbarColor: "#B08D21 #2A2A2A",
+              scrollbarColor: "#c9a84c #2a2a2a",
               WebkitOverflowScrolling: "touch",
             }}
           >
@@ -175,11 +163,11 @@ export default function Programs() {
                   key={item.title}
                   className={`w-[260px] sm:w-[280px] md:w-[300px] snap-center rounded-xl md:rounded-2xl border transition-all duration-500 overflow-hidden group flex-shrink-0 ${
                     isUpcoming
-                      ? "border-[#B08D21]/40 bg-gradient-to-br from-[#B08D21]/10 to-transparent hover:border-[#B08D21] hover:shadow-2xl hover:shadow-[#B08D21]/20"
-                      : "border-gray-800 bg-gray-900/50 hover:border-[#B08D21]/50 hover:shadow-2xl hover:shadow-[#B08D21]/10"
+                      ? "border-[#c9a84c]/40 bg-gradient-to-br from-[#c9a84c]/10 to-transparent hover:border-[#c9a84c] hover:shadow-2xl hover:shadow-[#c9a84c]/20"
+                      : "border-[#333333] bg-[#1a1a1a] hover:border-[#c9a84c]/50 hover:shadow-2xl hover:shadow-[#c9a84c]/10"
                   } hover:-translate-y-2`}
                 >
-                  {/* Image - Fixed height */}
+                  {/* Image */}
                   <div className="relative h-40 w-full overflow-hidden">
                     {item.image ? (
                       <>
@@ -188,18 +176,19 @@ export default function Programs() {
                           alt={item.title}
                           fill
                           className="object-cover group-hover:scale-110 transition-transform duration-700"
+                          sizes="(max-width: 768px) 260px, 300px"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/30 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d]/90 via-[#0d0d0d]/30 to-transparent" />
                       </>
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-5xl bg-gradient-to-br from-[#B08D21]/30 to-[#B08D21]/5">
+                      <div className="w-full h-full flex items-center justify-center text-5xl bg-gradient-to-br from-[#c9a84c]/30 to-[#c9a84c]/5">
                         {isUpcoming ? "🚀" : "📚"}
                       </div>
                     )}
 
                     {/* Status */}
                     <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-                      <span className="text-xs font-bold text-[#B08D21] bg-black/40 backdrop-blur-sm px-2.5 py-0.5 rounded-full">
+                      <span className="text-xs font-bold text-[#c9a84c] bg-black/40 backdrop-blur-sm px-2.5 py-0.5 rounded-full">
                         #{index + 1}
                       </span>
                       <StatusBadge status={item.status} />
@@ -208,7 +197,7 @@ export default function Programs() {
                     {/* Upcoming Badge */}
                     {isUpcoming && (
                       <div className="absolute top-3 right-3">
-                        <span className="bg-[#B08D21] text-white text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 shadow-lg shadow-[#B08D21]/50 animate-pulse">
+                        <span className="bg-[#c9a84c] text-[#0d0d0d] text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 shadow-lg shadow-[#c9a84c]/50 animate-pulse">
                           <Zap className="w-2.5 h-2.5" />
                           New
                         </span>
@@ -216,26 +205,26 @@ export default function Programs() {
                     )}
                   </div>
 
-                  {/* Content - Compact */}
+                  {/* Content */}
                   <div className="p-4">
-                    <h4 className="text-white font-bold text-base mb-1.5 group-hover:text-[#B08D21] transition-colors line-clamp-1">
+                    <h4 className="text-white font-bold text-base mb-1.5 group-hover:text-[#c9a84c] transition-colors line-clamp-1">
                       {item.title}
                     </h4>
-                    <p className="text-gray-400 text-xs leading-relaxed mb-3 line-clamp-2">
+                    <p className="text-[#7a7270] text-xs leading-relaxed mb-3 line-clamp-2">
                       {item.desc || "An exciting initiative coming your way!"}
                     </p>
 
-                    <div className="space-y-1.5 text-xs border-t border-gray-800 pt-3">
-                      <div className="flex items-center gap-2 text-gray-300">
-                        <CalendarIcon className="w-3.5 h-3.5 text-[#B08D21] shrink-0" />
+                    <div className="space-y-1.5 text-xs border-t border-[#333333] pt-3">
+                      <div className="flex items-center gap-2 text-[#b8b0a8]">
+                        <CalendarIcon className="w-3.5 h-3.5 text-[#c9a84c] shrink-0" />
                         <span className="truncate">{item.date}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-gray-300">
-                        <ClockIcon className="w-3.5 h-3.5 text-[#B08D21] shrink-0" />
+                      <div className="flex items-center gap-2 text-[#b8b0a8]">
+                        <ClockIcon className="w-3.5 h-3.5 text-[#c9a84c] shrink-0" />
                         <span className="truncate">{item.time}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-gray-300">
-                        <LocationIcon className="w-3.5 h-3.5 text-[#B08D21] shrink-0" />
+                      <div className="flex items-center gap-2 text-[#b8b0a8]">
+                        <LocationIcon className="w-3.5 h-3.5 text-[#c9a84c] shrink-0" />
                         <span className="truncate">{item.venue}</span>
                       </div>
                     </div>
@@ -249,24 +238,12 @@ export default function Programs() {
                               behavior: "smooth",
                               block: "center",
                             });
-                            section.classList.add(
-                              "ring-4",
-                              "ring-[#B08D21]",
-                              "ring-offset-4",
-                            );
-                            setTimeout(() => {
-                              section.classList.remove(
-                                "ring-4",
-                                "ring-[#B08D21]",
-                                "ring-offset-4",
-                              );
-                            }, 3000);
                           }
                         }}
-                        className="w-full mt-3 py-2 bg-[#B08D21] hover:bg-[#9A7A1D] text-white rounded-lg font-semibold text-xs transition-all flex items-center justify-center gap-2 group/btn hover:shadow-lg hover:shadow-[#B08D21]/30"
+                        className="w-full mt-3 py-2.5 bg-[#c9a84c] hover:bg-[#a8873a] text-[#0d0d0d] rounded-lg font-semibold text-xs transition-all flex items-center justify-center gap-2 active:scale-95 touch-manipulation"
                       >
                         Register Now
-                        <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
+                        <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                     )}
                   </div>
@@ -276,41 +253,20 @@ export default function Programs() {
           </div>
 
           {/* Mobile Dots */}
-          {isMobile && (
+          {isMobile && PROGRAMS.length > 1 && (
             <div className="flex justify-center gap-1.5 mt-3">
               {PROGRAMS.map((_, index) => (
                 <button
                   key={index}
-                  onClick={() => {
-                    const container = scrollContainerRef.current;
-                    if (container) {
-                      const cardWidth = container.children[0]?.clientWidth || 0;
-                      const gap = 16;
-                      container.scrollTo({
-                        left: index * (cardWidth + gap),
-                        behavior: "smooth",
-                      });
-                    }
-                  }}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                  onClick={() => scrollToIndex(index)}
+                  className={`h-1.5 rounded-full transition-all duration-300 touch-manipulation ${
                     activeIndex === index
-                      ? "w-5 bg-[#B08D21]"
-                      : "w-1.5 bg-gray-600 hover:bg-gray-400"
+                      ? "w-5 bg-[#c9a84c]"
+                      : "w-1.5 bg-[#333333] hover:bg-[#555555]"
                   }`}
+                  aria-label={`Go to program ${index + 1}`}
                 />
               ))}
-            </div>
-          )}
-
-          {/* Mobile Swipe Hint */}
-          {isMobile && (
-            <div className="flex items-center justify-center gap-2 mt-2">
-              <div className="h-1 w-10 bg-gray-700 rounded-full overflow-hidden">
-                <div className="h-full w-1/3 bg-[#B08D21] rounded-full animate-scroll-indicator" />
-              </div>
-              <span className="text-[10px] text-gray-500 animate-pulse">
-                Swipe →
-              </span>
             </div>
           )}
         </div>
@@ -324,7 +280,7 @@ export default function Programs() {
                 section.scrollIntoView({ behavior: "smooth", block: "start" });
               }
             }}
-            className="inline-flex items-center gap-2 text-[#B08D21] hover:text-[#D4A92C] font-semibold text-sm transition-colors group"
+            className="inline-flex items-center gap-2 text-[#c9a84c] hover:text-[#dbb95c] font-semibold text-sm transition-colors group touch-manipulation"
           >
             <span>Explore all events</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -335,7 +291,7 @@ export default function Programs() {
       <style jsx>{`
         .scrollbar-custom {
           scrollbar-width: thin;
-          scrollbar-color: #b08d21 #2a2a2a;
+          scrollbar-color: #c9a84c #1a1a1a;
           -webkit-overflow-scrolling: touch;
           scroll-behavior: smooth;
           cursor: grab;
@@ -347,28 +303,17 @@ export default function Programs() {
           height: 4px;
         }
         .scrollbar-custom::-webkit-scrollbar-track {
-          background: #2a2a2a;
+          background: #1a1a1a;
           border-radius: 10px;
         }
         .scrollbar-custom::-webkit-scrollbar-thumb {
-          background: #b08d21;
+          background: #c9a84c;
           border-radius: 10px;
         }
         @media (max-width: 768px) {
           .scrollbar-custom::-webkit-scrollbar {
             height: 3px;
           }
-        }
-        @keyframes scroll-indicator {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(200%);
-          }
-        }
-        .animate-scroll-indicator {
-          animation: scroll-indicator 2s ease-in-out infinite;
         }
       `}</style>
     </section>
