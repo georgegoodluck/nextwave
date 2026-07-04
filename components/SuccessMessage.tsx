@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "@/components/ui/Button";
 import { CheckCircle, Calendar, Clock, MapPin, Mail } from "lucide-react";
 import { Event } from "@/types/events";
 
@@ -61,9 +60,15 @@ export const SuccessMessage: React.FC<SuccessMessageProps> = ({ event }) => {
           </div>
         </div>
 
-        <Button variant="outline" onClick={() => (window.location.href = "/")}>
+        <button
+          onClick={() => {
+            window.location.href = "/";
+            // Or use router.push('/') if you have router
+          }}
+          className="inline-flex items-center justify-center px-6 py-3 bg-[#c9a84c] hover:bg-[#a8873a] text-[#0d0d0d] font-bold rounded-full transition-all active:scale-95 touch-manipulation"
+        >
           Back to Home
-        </Button>
+        </button>
       </div>
     </section>
   );

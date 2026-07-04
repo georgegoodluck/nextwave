@@ -1,40 +1,66 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "./prisma";
 import { emailService, RegistrationEmailData } from "./email";
-
-const prisma = new PrismaClient();
 
 export interface RegistrationData {
   fullName: string;
   email: string;
   phone?: string;
   eventId: string;
-  eventTitle: string;
-  eventDate: string;
-  eventVenue: string;
 }
 
 export class RegistrationService {
   async createRegistration(data: RegistrationData) {
     try {
-      // Save to database
+      // Get event details
+      const event = await prisma.event.findUnique({
+        where: { id: data.eventId },
+      });
+
+      if (!event) {
+        throw new Error("Event not found");
+      }
+
+      // Create registration
       const registration = await prisma.registration.create({
         data: {
           fullName: data.fullName,
           email: data.email,
           phone: data.phone || null,
           eventId: data.eventId,
-          eventTitle: data.eventTitle,
-          eventDate: data.eventDate,
-          eventVenue: data.eventVenue,
-          status: "PENDING",
+          status: "confirmed",
         },
       });
 
-      // Send confirmation email to participant
-      await this.sendConfirmationEmail(data);
+      // Update event count
+      await prisma.event.update({
+        where: { id: data.eventId },
+        data: {
+          registered: { increment: 1 },
+        },
+      });
 
-      // Send notification email to admin
-      await this.sendAdminNotification(data);
+      // Send emails (try/catch to not break registration)
+      try {
+        await this.sendConfirmationEmail({
+          name: data.fullName,
+          email: data.email,
+          phone: data.phone || "",
+          eventTitle: event.title,
+          eventDate: event.date,
+          eventVenue: event.venue,
+        });
+
+        await this.sendAdminNotification({
+          name: data.fullName,
+          email: data.email,
+          phone: data.phone || "",
+          eventTitle: event.title,
+          eventDate: event.date,
+          eventVenue: event.venue,
+        });
+      } catch (emailError) {
+        console.error("Email failed but registration saved:", emailError);
+      }
 
       return { success: true, registration };
     } catch (error) {
@@ -43,30 +69,35 @@ export class RegistrationService {
     }
   }
 
-  private async sendConfirmationEmail(data: RegistrationEmailData) {
-    const html = emailService.generateRegistrationConfirmation(data);
-
-    await emailService.sendEmail({
-      to: data.email,
-      subject: `Registration Confirmed: ${data.eventTitle} 🎉`,
-      html,
-    });
-  }
-
-  private async sendAdminNotification(data: RegistrationEmailData) {
-    const html = emailService.generateAdminNotification(data);
-
-    // Send to multiple admin emails
-    const adminEmails = process.env.ADMIN_EMAILS?.split(",") || [
-      "nextwaveglobal509@gmail.com",
-    ];
-
-    for (const adminEmail of adminEmails) {
+  async sendConfirmationEmail(data: RegistrationEmailData) {
+    try {
+      const html = emailService.generateRegistrationConfirmation(data);
       await emailService.sendEmail({
-        to: adminEmail.trim(),
-        subject: `New Registration: ${data.name} - ${data.eventTitle}`,
+        to: data.email,
+        subject: `Registration Confirmed: ${data.eventTitle} 🎉`,
         html,
       });
+    } catch (error) {
+      console.error("Failed to send confirmation email:", error);
+    }
+  }
+
+  async sendAdminNotification(data: RegistrationEmailData) {
+    try {
+      const html = emailService.generateAdminNotification(data);
+      const adminEmails = process.env.ADMIN_EMAILS?.split(",") || [
+        "nextwaveglobal509@gmail.com",
+      ];
+
+      for (const adminEmail of adminEmails) {
+        await emailService.sendEmail({
+          to: adminEmail.trim(),
+          subject: `New Registration: ${data.name} - ${data.eventTitle}`,
+          html,
+        });
+      }
+    } catch (error) {
+      console.error("Failed to send admin notification:", error);
     }
   }
 
@@ -81,6 +112,9 @@ export class RegistrationService {
         ...(filters?.status && { status: filters.status }),
         ...(filters?.email && { email: { contains: filters.email } }),
       },
+      include: {
+        event: true,
+      },
       orderBy: {
         createdAt: "desc",
       },
@@ -90,16 +124,22 @@ export class RegistrationService {
   async getRegistrationById(id: string) {
     return await prisma.registration.findUnique({
       where: { id },
+      include: {
+        event: true,
+      },
     });
   }
 
   async updateRegistrationStatus(
     id: string,
-    status: "PENDING" | "CONFIRMED" | "ATTENDED" | "CANCELLED",
+    status: "PENDING" | "CONFIRMED" | "ATTENDED" | "CANCELLED"
   ) {
     return await prisma.registration.update({
       where: { id },
       data: { status },
+      include: {
+        event: true,
+      },
     });
   }
 
@@ -130,4 +170,6 @@ export class RegistrationService {
   }
 }
 
-export const registrationService = new RegistrationService();
+// Create and export instance
+const registrationService = new RegistrationService();
+export { registrationService };

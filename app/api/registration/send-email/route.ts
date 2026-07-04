@@ -1,4 +1,3 @@
-// app/api/registrations/send-email/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 

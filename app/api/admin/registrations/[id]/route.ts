@@ -1,4 +1,3 @@
-// app/api/admin/registrations/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
@@ -18,7 +17,6 @@ export async function PATCH(
       );
     }
 
-    // Validate status
     const validStatuses = ["confirmed", "cancelled", "waitlisted"];
     if (!validStatuses.includes(status)) {
       return NextResponse.json({ error: "Invalid status" }, { status: 400 });

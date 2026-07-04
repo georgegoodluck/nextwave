@@ -43,7 +43,6 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    // Get registration to get eventId
     const registration = await prisma.registration.findUnique({
       where: { id },
     });
@@ -55,7 +54,6 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    // Delete registration and decrement event count in a transaction
     await prisma.$transaction([
       prisma.registration.delete({
         where: { id },
