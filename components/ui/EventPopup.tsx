@@ -61,6 +61,7 @@ export function EventPopup({ onRegister }: EventPopupProps) {
     <AnimatePresence>
       {isOpen && (
         <>
+          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -69,16 +70,17 @@ export function EventPopup({ onRegister }: EventPopupProps) {
             onClick={handleClose}
           />
 
+          {/* Popup - Centered on all screen sizes */}
           <motion.div
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed bottom-0 left-0 right-0 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 z-50 max-w-[400px] w-full mx-auto bg-[#1a1a1a] rounded-t-3xl md:rounded-2xl shadow-2xl overflow-hidden border border-[#333333]"
+            className="fixed inset-x-4 top-1/2 -translate-y-1/2 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 z-50 max-w-[400px] w-full mx-auto bg-[#1a1a1a] rounded-2xl shadow-2xl overflow-hidden border border-[#333333] max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-[#c9a84c] to-[#a8873a] px-5 py-3 flex items-center justify-between">
+            <div className="bg-gradient-to-r from-[#c9a84c] to-[#a8873a] px-5 py-3 flex items-center justify-between sticky top-0 z-10">
               <div className="flex items-center gap-2 text-[#0d0d0d]">
                 <ShoppingBag className="w-4 h-4" />
                 <span className="text-sm font-bold tracking-wide">
@@ -200,7 +202,7 @@ export function EventPopup({ onRegister }: EventPopupProps) {
             </div>
 
             {/* Footer */}
-            <div className="bg-[#0d0d0d] px-5 py-2.5 flex items-center justify-between border-t border-[#333333]">
+            <div className="bg-[#0d0d0d] px-5 py-2.5 flex items-center justify-between border-t border-[#333333] sticky bottom-0">
               <span className="text-[10px] text-[#7a7270]">
                 Powered by NextWave Global
               </span>
