@@ -1,4 +1,3 @@
-// app/admin/login/page.tsx
 "use client";
 
 import { useState } from "react";
@@ -19,18 +18,22 @@ export default function AdminLogin() {
     try {
       const response = await fetch("/api/admin/auth", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ username, password }),
       });
 
-      if (response.ok) {
+      const data = await response.json();
+
+      if (response.ok && data.success) {
         router.push("/admin");
         router.refresh();
       } else {
-        const data = await response.json();
         setError(data.error || "Invalid credentials");
       }
     } catch (error) {
+      console.error("Login error:", error);
       setError("An error occurred. Please try again.");
     } finally {
       setLoading(false);
@@ -38,44 +41,44 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="bg-white p-8 rounded-2xl shadow-lg max-w-md w-full">
+    <div className="min-h-screen flex items-center justify-center bg-[#0d0d0d]">
+      <div className="bg-[#1a1a1a] p-8 rounded-2xl shadow-lg max-w-md w-full border border-[#333333]">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">Admin Login</h1>
-          <p className="text-gray-500 text-sm mt-2">
+          <h1 className="text-2xl font-bold text-white">Admin Login</h1>
+          <p className="text-[#7a7270] text-sm mt-2">
             Enter your credentials to access the dashboard
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm">
+            <div className="bg-red-500/10 text-red-400 p-3 rounded-lg text-sm border border-red-500/20">
               {error}
             </div>
           )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-[#b8b0a8] mb-1">
               Username
             </label>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#B08D21] focus:border-transparent outline-none"
+              className="w-full px-4 py-2 bg-[#0d0d0d] border border-[#333333] rounded-lg focus:ring-2 focus:ring-[#c9a84c] focus:border-transparent outline-none text-white"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-[#b8b0a8] mb-1">
               Password
             </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#B08D21] focus:border-transparent outline-none"
+              className="w-full px-4 py-2 bg-[#0d0d0d] border border-[#333333] rounded-lg focus:ring-2 focus:ring-[#c9a84c] focus:border-transparent outline-none text-white"
               required
             />
           </div>
@@ -83,7 +86,7 @@ export default function AdminLogin() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-[#B08D21] text-white rounded-lg font-semibold hover:bg-[#8e711a] transition disabled:opacity-50"
+            className="w-full py-3 bg-[#c9a84c] text-[#0d0d0d] rounded-lg font-semibold hover:bg-[#a8873a] transition disabled:opacity-50"
           >
             {loading ? "Logging in..." : "Login"}
           </button>

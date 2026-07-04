@@ -83,6 +83,7 @@ export default function AdminDashboard() {
             reg.id === id ? { ...reg, status: newStatus } : reg,
           ),
         );
+        alert("Status updated successfully");
       } else {
         const data = await response.json();
         alert(data.error || "Failed to update status");
@@ -132,26 +133,26 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#B08D21]"></div>
+      <div className="min-h-screen flex items-center justify-center bg-[#0d0d0d]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#c9a84c]"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-[#0d0d0d] p-6">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Registrations</h1>
-            <p className="text-gray-500 mt-1">
+            <h1 className="text-3xl font-bold text-white">Registrations</h1>
+            <p className="text-[#7a7270] mt-1">
               Total: {registrations.length} registrations
             </p>
           </div>
           <div className="flex gap-3">
             <button
               onClick={exportCSV}
-              className="flex items-center gap-2 px-4 py-2 bg-[#B08D21] text-white rounded-lg hover:bg-[#8e711a] transition"
+              className="flex items-center gap-2 px-4 py-2 bg-[#c9a84c] text-[#0d0d0d] rounded-lg hover:bg-[#a8873a] transition font-semibold"
             >
               <Download size={18} />
               Export CSV
@@ -167,11 +168,11 @@ export default function AdminDashboard() {
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-6">
+        <div className="bg-[#1a1a1a] rounded-xl border border-[#333333] p-4 mb-6">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
               <Search
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-[#7a7270]"
                 size={18}
               />
               <input
@@ -179,13 +180,13 @@ export default function AdminDashboard() {
                 placeholder="Search by name, email, or event..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#B08D21] focus:border-transparent outline-none"
+                className="w-full pl-10 pr-4 py-2 bg-[#0d0d0d] border border-[#333333] rounded-lg focus:ring-2 focus:ring-[#c9a84c] focus:border-transparent outline-none text-white"
               />
             </div>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#B08D21] focus:border-transparent outline-none"
+              className="px-4 py-2 bg-[#0d0d0d] border border-[#333333] rounded-lg focus:ring-2 focus:ring-[#c9a84c] focus:border-transparent outline-none text-white"
             >
               <option value="all">All Status</option>
               <option value="confirmed">Confirmed</option>
@@ -196,74 +197,74 @@ export default function AdminDashboard() {
         </div>
 
         {/* Table */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="bg-[#1a1a1a] rounded-xl border border-[#333333] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="bg-[#0d0d0d] border-b border-[#333333]">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#7a7270] uppercase tracking-wider">
                     Name
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#7a7270] uppercase tracking-wider">
                     Email
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#7a7270] uppercase tracking-wider">
                     Phone
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#7a7270] uppercase tracking-wider">
                     Event
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#7a7270] uppercase tracking-wider">
                     Date
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#7a7270] uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-[#7a7270] uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-[#333333]">
                 {filteredRegistrations.length === 0 ? (
                   <tr>
                     <td
                       colSpan={7}
-                      className="px-6 py-8 text-center text-gray-500"
+                      className="px-6 py-8 text-center text-[#7a7270]"
                     >
                       No registrations found
                     </td>
                   </tr>
                 ) : (
                   filteredRegistrations.map((reg) => (
-                    <tr key={reg.id} className="hover:bg-gray-50 transition">
+                    <tr key={reg.id} className="hover:bg-[#2a2a2a] transition">
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="font-medium text-gray-900">
+                        <div className="font-medium text-white">
                           {reg.fullName}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-[#b8b0a8]">
                         {reg.email}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-[#b8b0a8]">
                         {reg.phone || "—"}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">
+                        <div className="text-sm font-medium text-white">
                           {reg.event.title}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-[#b8b0a8]">
                         {new Date(reg.createdAt).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span
                           className={`px-2 py-1 rounded-full text-xs font-medium ${
                             reg.status === "confirmed"
-                              ? "bg-green-100 text-green-700"
+                              ? "bg-green-500/20 text-green-400"
                               : reg.status === "cancelled"
-                                ? "bg-red-100 text-red-700"
-                                : "bg-yellow-100 text-yellow-700"
+                                ? "bg-red-500/20 text-red-400"
+                                : "bg-yellow-500/20 text-yellow-400"
                           }`}
                         >
                           {reg.status}
@@ -274,7 +275,7 @@ export default function AdminDashboard() {
                           {reg.status !== "confirmed" && (
                             <button
                               onClick={() => updateStatus(reg.id, "confirmed")}
-                              className="p-1 text-green-600 hover:bg-green-50 rounded transition"
+                              className="p-1 text-green-400 hover:bg-green-500/20 rounded transition"
                               title="Confirm"
                             >
                               <CheckCircle size={18} />
@@ -283,7 +284,7 @@ export default function AdminDashboard() {
                           {reg.status !== "cancelled" && (
                             <button
                               onClick={() => updateStatus(reg.id, "cancelled")}
-                              className="p-1 text-red-600 hover:bg-red-50 rounded transition"
+                              className="p-1 text-red-400 hover:bg-red-500/20 rounded transition"
                               title="Cancel"
                             >
                               <XCircle size={18} />
@@ -291,7 +292,7 @@ export default function AdminDashboard() {
                           )}
                           <button
                             onClick={() => deleteRegistration(reg.id)}
-                            className="p-1 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition"
+                            className="p-1 text-[#7a7270] hover:text-red-400 hover:bg-red-500/20 rounded transition"
                             title="Delete"
                           >
                             <Trash2 size={18} />

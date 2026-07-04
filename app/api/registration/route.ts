@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     if (!fullName || !email || !eventId) {
       return NextResponse.json(
         { error: "Full name, email, and event ID are required" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     if (event.registered >= event.capacity) {
       return NextResponse.json(
         { error: "Event is fully booked" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
     if (existingRegistration) {
       return NextResponse.json(
         { error: "You are already registered for this event" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
     ]);
 
     // Send confirmation email (don't await to avoid blocking)
-    fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/registrations/send-email`, {
+    fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/registration/send-email`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
     console.error("Registration error:", error);
     return NextResponse.json(
       { error: "Failed to process registration" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
@@ -114,7 +114,7 @@ export async function GET(request: NextRequest) {
     console.error("Error fetching registrations:", error);
     return NextResponse.json(
       { error: "Failed to fetch registrations" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
