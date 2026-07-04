@@ -3,24 +3,39 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql" // or "mysql" or "sqlite"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  // ❌ REMOVE this line: url = env("DATABASE_URL")
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  category    String
+  date        String
+  time        String
+  venue       String
+  capacity    Int
+  registered  Int      @default(0)
+  price       String
+  speakers    String   // JSON string
+  status      String
+  image       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  registrations Registration[]
 }
 
 model Registration {
-  id          String   @id @default(cuid())
-  fullName    String
-  email       String
-  phone       String?
-  eventId     String
-  eventTitle  String
-  eventDate   String
-  eventVenue  String
-  status      String   @default("PENDING") // PENDING, CONFIRMED, ATTENDED, CANCELLED
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(cuid())
+  eventId   String
+  event     Event    @relation(fields: [eventId], references: [id])
+  fullName  String
+  email     String
+  phone     String?
+  status    String   @default("confirmed")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  @@index([email])
-  @@index([eventId])
-  @@index([status])
+  @@unique([eventId, email])
 }

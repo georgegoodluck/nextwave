@@ -56,23 +56,16 @@ export function useRegistration() {
     setError("");
 
     try {
-      const response = await fetch("/api/register", {
+      const response = await fetch("/api/registrations", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
         },
         body: JSON.stringify({
-          name: formData.fullName,
+          fullName: formData.fullName,
           email: formData.email,
           phone: formData.phone || "",
-          event: selectedEvent.title,
-          event_date: selectedEvent.date,
-          event_venue: selectedEvent.venue,
-          event_id: selectedEvent.id,
-          _subject: `New Event Registration: ${selectedEvent.title} - ${formData.fullName}`,
-          _template: "table",
-          _captcha: "false",
+          eventId: selectedEvent.id,
         }),
       });
 
