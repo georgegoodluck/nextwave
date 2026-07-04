@@ -4,7 +4,6 @@ import React from "react";
 import { SocialIcon } from "react-social-icons";
 import { Mail, MapPin, ArrowUp, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { PROGRAMS } from "@/data/programs";
 
 export default function Footer() {
   const scrollToSection = (id: string) => {
@@ -21,8 +20,9 @@ export default function Footer() {
   return (
     <footer className="bg-[#0d0d0d] border-t border-[#333333] pt-12 pb-6 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12">
-          <div className="lg:col-span-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-12">
+          {/* Brand Section */}
+          <div>
             <Link href="/" className="inline-block">
               <h3 className="text-xl md:text-2xl font-bold mb-3 uppercase tracking-tighter text-white">
                 Nextwave <span className="text-[#c9a84c]">Global</span>
@@ -64,37 +64,44 @@ export default function Footer() {
             </div>
           </div>
 
+          {/* Connect With Us Section */}
           <div>
             <h4 className="font-bold mb-4 text-xs uppercase tracking-widest text-[#c9a84c]">
-              Connect
+              Connect With Us
             </h4>
             <ul className="space-y-3 text-[#7a7270] text-sm font-medium">
-              <li className="flex items-center gap-2">
+              {/* Email - Fixed Alignment */}
+              <li className="flex items-center gap-3">
                 <Mail size={16} className="text-[#c9a84c] shrink-0" />
                 <a
                   href="mailto:nextwaveglobal509@gmail.com"
-                  className="hover:text-[#c9a84c] transition break-all"
+                  className="hover:text-[#c9a84c] transition inline-flex items-center h-4"
                 >
                   nextwaveglobal509@gmail.com
                 </a>
               </li>
-              <li className="flex items-center gap-2">
+              {/* Location */}
+              <li className="flex items-center gap-3">
                 <MapPin size={16} className="text-[#c9a84c] shrink-0" />
-                <span>Virtual & Physical Events</span>
+                <span className="inline-flex items-center h-4">Virtual & Physical Events</span>
               </li>
-              <li className="text-[#c9a84c] font-bold italic text-base flex items-center gap-2">
-                <Sparkles className="w-4 h-4" />
-                Learn. Earn. Lead.
+              {/* Tagline */}
+              <li className="flex items-center gap-3">
+                <Sparkles size={16} className="text-[#c9a84c] shrink-0" />
+                <span className="text-[#c9a84c] font-bold italic text-base inline-flex items-center h-4">
+                  Learn. Earn. Lead.
+                </span>
               </li>
             </ul>
           </div>
         </div>
 
+        {/* Bottom Bar */}
         <div className="pt-6 border-t border-[#333333] flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-semibold text-[#7a7270] uppercase tracking-widest">
-          <p>
+          <p className="text-center sm:text-left">
             © {new Date().getFullYear()} Nextwave Global. All Rights Reserved.
           </p>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 sm:gap-6 flex-wrap justify-center">
             <button
               onClick={() => scrollToSection("about")}
               className="hover:text-[#c9a84c] transition touch-manipulation"
@@ -115,7 +122,7 @@ export default function Footer() {
             </button>
             <button
               onClick={scrollToTop}
-              className="p-2 bg-[#1a1a1a] hover:bg-[#c9a84c] rounded-full transition-colors touch-manipulation"
+              className="p-2 bg-[#1a1a1a] hover:bg-[#c9a84c] rounded-full transition-colors touch-manipulation flex items-center justify-center"
               aria-label="Scroll to top"
             >
               <ArrowUp className="w-4 h-4 text-[#b8b0a8] hover:text-[#0d0d0d]" />

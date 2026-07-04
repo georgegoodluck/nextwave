@@ -82,15 +82,13 @@ export function EventPopup({ onRegister }: EventPopupProps) {
               <div className="flex items-center gap-2 text-[#0d0d0d]">
                 <ShoppingBag className="w-4 h-4" />
                 <span className="text-sm font-bold tracking-wide">
-                  Add to Cart
-                </span>
-                <span className="bg-[#0d0d0d]/20 text-[10px] px-2 py-0.5 rounded-full text-[#0d0d0d]">
-                  1 item
+                  Register Now
                 </span>
               </div>
               <button
                 onClick={handleClose}
                 className="text-[#0d0d0d]/70 hover:text-[#0d0d0d] transition-colors p-1 touch-manipulation"
+                aria-label="Close popup"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -153,25 +151,14 @@ export function EventPopup({ onRegister }: EventPopupProps) {
                 <div>
                   <p className="text-[10px] text-[#7a7270]">Price</p>
                   <p className="font-bold text-[#c9a84c] text-lg">FREE</p>
-                  <p className="text-[9px] text-[#7a7270] line-through">
-                    ₦0.00
-                  </p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-1 bg-[#0d0d0d] rounded-lg px-2 py-1 border border-[#333333]">
-                    <span className="text-xs font-medium text-[#7a7270]">
-                      Qty
-                    </span>
-                    <span className="text-sm font-bold text-white">1</span>
-                  </div>
-                  <button
-                    onClick={handleRegister}
-                    className="px-4 py-2.5 bg-[#c9a84c] hover:bg-[#a8873a] text-[#0d0d0d] font-bold rounded-lg transition-all flex items-center gap-2 text-sm shadow-lg shadow-[#c9a84c]/25 hover:shadow-[#c9a84c]/40 active:scale-95 touch-manipulation"
-                  >
-                    <span>Get It Now</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
+                <button
+                  onClick={handleRegister}
+                  className="px-6 py-2.5 bg-[#c9a84c] hover:bg-[#a8873a] text-[#0d0d0d] font-bold rounded-lg transition-all flex items-center gap-2 text-sm shadow-lg shadow-[#c9a84c]/25 hover:shadow-[#c9a84c]/40 active:scale-95 touch-manipulation"
+                >
+                  <span>Get It Now</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
               </div>
 
               {/* Speakers */}
@@ -195,15 +182,11 @@ export function EventPopup({ onRegister }: EventPopupProps) {
               )}
 
               {/* Trust Badges */}
-              <div className="mt-3 pt-3 border-t border-[#333333] flex flex-wrap items-center justify-between gap-1">
-                <div className="flex items-center gap-3">
+              <div className="mt-3 pt-3 border-t border-[#333333] flex flex-wrap items-center justify-between gap-2">
+                <div className="flex items-center gap-3 flex-wrap">
                   <span className="flex items-center gap-1 text-[9px] text-green-400">
                     <CheckCircle className="w-3 h-3" />
                     Free Entry
-                  </span>
-                  <span className="flex items-center gap-1 text-[9px] text-blue-400">
-                    <Zap className="w-3 h-3" />
-                    Limited Slots
                   </span>
                   <span className="flex items-center gap-1 text-[9px] text-purple-400">
                     <Gift className="w-3 h-3" />
@@ -219,11 +202,11 @@ export function EventPopup({ onRegister }: EventPopupProps) {
             {/* Footer */}
             <div className="bg-[#0d0d0d] px-5 py-2.5 flex items-center justify-between border-t border-[#333333]">
               <span className="text-[10px] text-[#7a7270]">
-                Secure checkout • Powered by NextWave
+                Powered by NextWave Global
               </span>
               <span className="text-[10px] text-[#7a7270] flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                In stock
+                Open for registration
               </span>
             </div>
           </motion.div>
