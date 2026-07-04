@@ -101,14 +101,21 @@ export function useRegistration() {
           throw new Error(data.error || "Submission failed");
         }
 
-        setSubmitted(true);
+        // ✅ IMPORTANT: Only set submitted to true on success
+        if (data.success) {
+          setSubmitted(true);
+        } else {
+          throw new Error(data.error || "Registration failed");
+        }
       } catch (err) {
+        console.error("Registration error:", err);
         setError(
           err instanceof Error
             ? err.message
             : "Something went wrong. Please try again.",
         );
       } finally {
+        // ✅ IMPORTANT: Always set loading to false
         setIsLoading(false);
       }
     },
