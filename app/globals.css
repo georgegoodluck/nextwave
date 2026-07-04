@@ -7,8 +7,8 @@
 }
 
 body {
-  background-color: var(--nw-cream);
-  color: var(--nw-charcoal);
+  background-color: #0d0d0d;
+  color: #ffffff;
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
@@ -73,7 +73,7 @@ html {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #1a1a1a;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb {
