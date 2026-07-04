@@ -13,7 +13,6 @@ export function useRegistration() {
     phone: "",
   });
 
-  // Validation function
   const validateForm = () => {
     if (!formData.fullName.trim()) {
       setError("Full name is required");
@@ -23,7 +22,6 @@ export function useRegistration() {
       setError("Email is required");
       return false;
     }
-    // Simple email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setError("Please enter a valid email address");
@@ -47,7 +45,6 @@ export function useRegistration() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validate form
     if (!validateForm()) return;
 
     if (!selectedEvent) {
@@ -59,35 +56,33 @@ export function useRegistration() {
     setError("");
 
     try {
-      const response = await fetch(
-        "https://formsubmit.co/ajax/nextwaveglobal509@gmail.com",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            name: formData.fullName,
-            email: formData.email,
-            phone: formData.phone || "Not provided",
-            event: selectedEvent.title,
-            event_date: selectedEvent.date,
-            event_venue: selectedEvent.venue,
-            _subject: `New Event Registration: ${selectedEvent.title} - ${formData.fullName}`,
-            _template: "table",
-            _captcha: "false",
-          }),
+      const response = await fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
-      );
+        body: JSON.stringify({
+          name: formData.fullName,
+          email: formData.email,
+          phone: formData.phone || "",
+          event: selectedEvent.title,
+          event_date: selectedEvent.date,
+          event_venue: selectedEvent.venue,
+          event_id: selectedEvent.id,
+          _subject: `New Event Registration: ${selectedEvent.title} - ${formData.fullName}`,
+          _template: "table",
+          _captcha: "false",
+        }),
+      });
+
+      const data = await response.json();
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || "Submission failed");
+        throw new Error(data.error || "Submission failed");
       }
 
       setSubmitted(true);
-      // Don't reset form data completely, keep it for success message
     } catch (err) {
       setError(
         err instanceof Error
