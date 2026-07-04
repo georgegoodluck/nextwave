@@ -66,35 +66,26 @@ export function useRegistration() {
     setError("");
 
     try {
-      const response = await fetch(
-        "https://formsubmit.co/ajax/nextwaveglobal509@gmail.com",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            name: formData.fullName,
-            email: formData.email,
-            phone: formData.phone || "Not provided",
-            event: selectedEvent.title,
-            event_date: selectedEvent.date,
-            event_venue: selectedEvent.venue,
-            _subject: `New Event Registration: ${selectedEvent.title} - ${formData.fullName}`,
-            _template: "table",
-            _captcha: "false",
-          }),
+      const response = await fetch("/api/registrations", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone || "",
+          eventId: selectedEvent.id,
+        }),
+      });
+
+      const data = await response.json();
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || "Submission failed");
+        throw new Error(data.error || "Submission failed");
       }
 
       setSubmitted(true);
-      // Don't reset form data completely, keep it for success message
     } catch (err) {
       setError(
         err instanceof Error
