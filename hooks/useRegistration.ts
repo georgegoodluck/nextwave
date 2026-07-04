@@ -13,7 +13,6 @@ export function useRegistration() {
     phone: "",
   });
 
-  // Validation function
   const validateForm = () => {
     if (!formData.fullName.trim()) {
       setError("Full name is required");
@@ -23,7 +22,6 @@ export function useRegistration() {
       setError("Email is required");
       return false;
     }
-    // Simple email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setError("Please enter a valid email address");
@@ -47,18 +45,10 @@ export function useRegistration() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validate form
     if (!validateForm()) return;
 
     if (!selectedEvent) {
       setError("Please select an event to register for");
-      return;
-    }
-
-    if (selectedEvent.registered >= selectedEvent.capacity) {
-      setError(
-        `Sorry, ${selectedEvent.title} is fully booked. Please select another event.`,
-      );
       return;
     }
 
