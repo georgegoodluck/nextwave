@@ -3,83 +3,97 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
+  console.log("🌱 Seeding database...");
+
+  // Clear existing data
+  await prisma.registration.deleteMany();
+  await prisma.event.deleteMany();
+
   const events = [
     {
-      id: "genius-blueprint-jan-2026",
-      title: "The 'Genius Blueprint' Study Hackathon",
+      id: "scholar-reboot",
+      title: "Scholar Reboot",
       description:
-        "A 48-hour virtual challenge where students form teams to solve complex academic problems using AI tools, mind mapping, and speed-reading techniques.",
+        "A 2-day virtual event featuring real stories and practical strategies to reboot your academic journey.",
       category: "Learn",
-      date: "June 24-25, 2026",
-      time: "9:00 AM - 9:00 PM WAT",
-      venue: "Virtual (Discord & Zoom)",
-      capacity: 1000,
-      registered: 847,
+      date: "October 18, 2025",
+      time: "7:00 PM WAT",
+      venue: "Virtual (WhatsApp Space)",
+      capacity: 500,
+      registered: 0,
       price: "Free",
-      speakers: JSON.stringify(["Dr. Adeola Williams", "Chidi Okonkwo"]),
-      status: "Upcoming",
+      speakers: JSON.stringify([
+        "Amoo Covenant",
+        "Omotosho John",
+        "Ogunsakin Tobiloba",
+        "Adefuye Oreoluwa",
+      ]),
+      status: "Past",
+      image: "/events/scholars_reboot.jpg",
     },
     {
-      id: "money-moves-feb-2026",
-      title: "Money Moves: Financial Literacy 101",
+      id: "campus2linkedin",
+      title: "Campus2LinkedIn",
       description:
-        "A beginner-friendly webinar on budgeting, avoiding debt traps, and understanding cryptocurrency vs. traditional savings.",
+        "A one-day free virtual event to help students build strong profiles, connections, and career visibility.",
       category: "Learn",
-      date: "July 08, 2026",
-      time: "2:00 PM - 4:30 PM WAT",
-      venue: "Virtual (Zoom Webinar)",
-      capacity: 600,
-      registered: 412,
+      date: "December 21, 2025",
+      time: "7:00 PM WAT",
+      venue: "Virtual",
+      capacity: 300,
+      registered: 0,
       price: "Free",
-      speakers: JSON.stringify(["Tunde Adebayo", "Zainab Mohammed"]),
-      status: "Upcoming",
+      speakers: JSON.stringify(["Okewoye Unique", "Bliss Eniobayan"]),
+      status: "Past",
+      image: "/events/campus2linkedin.jpg",
     },
     {
-      id: "global-classroom-mar-2026",
-      title: "The Global Classroom: Language & Culture Exchange",
+      id: "breaking-into-tech",
+      title: "Starting Tech with Limited Resources",
       description:
-        "A networking mixer connecting students from Nigeria, Kenya, and Brazil to practice new languages and discuss cultural business etiquette.",
-      category: "Learn",
-      date: "July 28, 2026",
-      time: "3:00 PM - 5:00 PM WAT",
-      venue: "Virtual (SpatialChat)",
-      capacity: 200,
-      registered: 189,
+        "Learn what really matters in the beginning of your tech journey.",
+      category: "Earn",
+      date: "March 25, 2026",
+      time: "8:00 PM WAT",
+      venue: "Virtual (Telegram)",
+      capacity: 300,
+      registered: 0,
       price: "Free",
-      speakers: JSON.stringify(["Maria Santos", "James Ochieng"]),
-      status: "Upcoming",
+      speakers: JSON.stringify(["Temiloluwa Gboyega"]),
+      status: "Past",
+      image: "/events/breaking_into_tech.jpg",
     },
     {
-      id: "academic-excellence-summit-may-2026",
-      title: "Academic Excellence Summit: Exam Warriors",
+      id: "leadership-in-action",
+      title: "Leadership In Action",
       description:
-        "Master proven study techniques, time management hacks, and exam strategies used by first-class graduates and scholarship winners.",
-      category: "Learn",
-      date: "August 9, 2026",
-      time: "10:00 AM - 3:00 PM WAT",
-      venue: "Hybrid (Physical: UNILAG & Virtual: Zoom)",
-      capacity: 800,
-      registered: 623,
+        "Building Influence, Creating Impact & Driving Growth as a Student.",
+      category: "Lead",
+      date: "July 18, 2026",
+      time: "7:00 PM - 9:00 PM WAT",
+      venue: "Virtual (Google Meet)",
+      capacity: 500,
+      registered: 0,
       price: "Free",
-      speakers: JSON.stringify(["Prof. Funmi Adebayo", "Emeka Nwosu"]),
+      speakers: JSON.stringify(["Dr. Bush", "Senator"]),
       status: "Upcoming",
+      image: "/events/leadership.jpg",
     },
   ];
 
   for (const event of events) {
-    await prisma.event.upsert({
-      where: { id: event.id },
-      update: {},
-      create: event,
+    await prisma.event.create({
+      data: event,
     });
+    console.log(`✅ Created event: ${event.title}`);
   }
 
-  console.log("Events seeded successfully");
+  console.log("✅ Seeding complete!");
 }
 
 main()
   .catch((e) => {
-    console.error(e);
+    console.error("❌ Seeding failed:", e);
     process.exit(1);
   })
   .finally(async () => {

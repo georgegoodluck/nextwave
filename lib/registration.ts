@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "./prisma";
 import { emailService, RegistrationEmailData } from "./email";
-
-const prisma = new PrismaClient();
 
 export interface RegistrationData {
   fullName: string;
@@ -13,7 +11,7 @@ export interface RegistrationData {
 export class RegistrationService {
   async createRegistration(data: RegistrationData) {
     try {
-      // First get the event details
+      // Get event details
       const event = await prisma.event.findUnique({
         where: { id: data.eventId },
       });
@@ -22,7 +20,7 @@ export class RegistrationService {
         throw new Error("Event not found");
       }
 
-      // Save to database
+      // Create registration
       const registration = await prisma.registration.create({
         data: {
           fullName: data.fullName,
@@ -33,25 +31,36 @@ export class RegistrationService {
         },
       });
 
-      // Send confirmation email to participant
-      await this.sendConfirmationEmail({
-        name: data.fullName,
-        email: data.email,
-        phone: data.phone || "",
-        eventTitle: event.title,
-        eventDate: event.date,
-        eventVenue: event.venue,
+      // Update event count
+      await prisma.event.update({
+        where: { id: data.eventId },
+        data: {
+          registered: { increment: 1 },
+        },
       });
 
-      // Send notification email to admin
-      await this.sendAdminNotification({
-        name: data.fullName,
-        email: data.email,
-        phone: data.phone || "",
-        eventTitle: event.title,
-        eventDate: event.date,
-        eventVenue: event.venue,
-      });
+      // Send emails (try/catch to not break registration)
+      try {
+        await this.sendConfirmationEmail({
+          name: data.fullName,
+          email: data.email,
+          phone: data.phone || "",
+          eventTitle: event.title,
+          eventDate: event.date,
+          eventVenue: event.venue,
+        });
+
+        await this.sendAdminNotification({
+          name: data.fullName,
+          email: data.email,
+          phone: data.phone || "",
+          eventTitle: event.title,
+          eventDate: event.date,
+          eventVenue: event.venue,
+        });
+      } catch (emailError) {
+        console.error("Email failed but registration saved:", emailError);
+      }
 
       return { success: true, registration };
     } catch (error) {
@@ -63,7 +72,6 @@ export class RegistrationService {
   async sendConfirmationEmail(data: RegistrationEmailData) {
     try {
       const html = emailService.generateRegistrationConfirmation(data);
-
       await emailService.sendEmail({
         to: data.email,
         subject: `Registration Confirmed: ${data.eventTitle} 🎉`,
@@ -71,15 +79,12 @@ export class RegistrationService {
       });
     } catch (error) {
       console.error("Failed to send confirmation email:", error);
-      // Don't throw - email failure shouldn't break registration
     }
   }
 
   async sendAdminNotification(data: RegistrationEmailData) {
     try {
       const html = emailService.generateAdminNotification(data);
-
-      // Send to multiple admin emails
       const adminEmails = process.env.ADMIN_EMAILS?.split(",") || [
         "nextwaveglobal509@gmail.com",
       ];
@@ -93,7 +98,6 @@ export class RegistrationService {
       }
     } catch (error) {
       console.error("Failed to send admin notification:", error);
-      // Don't throw - email failure shouldn't break registration
     }
   }
 
@@ -128,7 +132,7 @@ export class RegistrationService {
 
   async updateRegistrationStatus(
     id: string,
-    status: "PENDING" | "CONFIRMED" | "ATTENDED" | "CANCELLED",
+    status: "PENDING" | "CONFIRMED" | "ATTENDED" | "CANCELLED"
   ) {
     return await prisma.registration.update({
       where: { id },
@@ -166,6 +170,6 @@ export class RegistrationService {
   }
 }
 
-// ✅ CREATE AND EXPORT THE INSTANCE
-const registrationServiceInstance = new RegistrationService();
-export { registrationServiceInstance as registrationService };
+// Create and export instance
+const registrationService = new RegistrationService();
+export { registrationService };
