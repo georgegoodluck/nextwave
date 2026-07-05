@@ -6,9 +6,11 @@ async function checkDB() {
   try {
     // Check database type by trying to get connection info
     const result = await prisma.$queryRaw`SELECT 'PostgreSQL' as db_type, version() as version`;
+    const rows = result as { db_type: string; version: string }[];
+    
     console.log("✅ Connected to:", result);
-    console.log(`   Database Type: ${result[0].db_type}`);
-    console.log(`   Version: ${result[0].version}`);
+    console.log(`   Database Type: ${rows[0]?.db_type || 'Unknown'}`);
+    console.log(`   Version: ${rows[0]?.version || 'Unknown'}`);
     
     // Count events
     const eventCount = await prisma.event.count();
