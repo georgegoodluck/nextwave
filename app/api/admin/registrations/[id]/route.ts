@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getEmailService } from "@/lib/resend";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -29,6 +30,26 @@ export async function PATCH(
         event: true,
       },
     });
+
+    // Send status update email if needed (using Resend)
+    if (status === "confirmed" || status === "cancelled") {
+      try {
+        const emailService = getEmailService();
+
+        const emailData = {
+          email: registration.email,
+          fullName: registration.fullName,
+          eventTitle: registration.event.title,
+          eventDate: registration.event.date,
+          eventVenue: registration.event.venue,
+        };
+
+        await emailService.sendConfirmationEmail(emailData);
+        console.log(`📧 Status update email sent for ${registration.email}`);
+      } catch (emailError) {
+        console.error("⚠️ Email sending failed:", emailError);
+      }
+    }
 
     return NextResponse.json({
       success: true,
