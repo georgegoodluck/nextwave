@@ -1,108 +1,81 @@
-// lib/email.ts
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
-export interface EmailOptions {
-  to: string;
-  subject: string;
-  html: string;
-  text?: string;
-}
-
-export interface RegistrationEmailData {
-  name: string;
+export interface ResendEmailData {
   email: string;
-  phone: string;
+  fullName: string;
   eventTitle: string;
   eventDate: string;
   eventVenue: string;
+  phone?: string;
 }
 
-class EmailService {
-  private transporter: nodemailer.Transporter | null = null;
-  private isConfigured: boolean = false;
+export class ResendEmailService {
+  private resend: Resend;
+  private fromEmail: string;
 
   constructor() {
-    this.isConfigured = this.initializeTransporter();
+    if (!process.env.RESEND_API_KEY) {
+      throw new Error("RESEND_API_KEY is not set in environment variables");
+    }
+    this.resend = new Resend(process.env.RESEND_API_KEY);
+    this.fromEmail =
+      process.env.RESEND_FROM_EMAIL ||
+      "NextWave Global <noreply@nextwaveglobal.com>";
   }
 
-  private initializeTransporter(): boolean {
-    try {
-      // Check if all required env vars exist
-      const host = process.env.SMTP_HOST;
-      const user = process.env.SMTP_USER;
-      const pass = process.env.SMTP_PASS;
-
-      if (!host || !user || !pass) {
-        console.warn("⚠️ SMTP configuration missing. Email service disabled.");
-        console.warn(`SMTP_HOST: ${host ? "✅" : "❌"}`);
-        console.warn(`SMTP_USER: ${user ? "✅" : "❌"}`);
-        console.warn(`SMTP_PASS: ${pass ? "✅" : "❌"}`);
-        return false;
-      }
-
-      this.transporter = nodemailer.createTransport({
-        host: host,
-        port: parseInt(process.env.SMTP_PORT || "587"),
-        secure: process.env.SMTP_SECURE === "true",
-        auth: {
-          user: user,
-          pass: pass,
-        },
-        // For Gmail, add these
-        tls: {
-          rejectUnauthorized: false,
-        },
-      });
-
-      console.log("✅ Email service initialized successfully");
-      return true;
-    } catch (error) {
-      console.error("❌ Failed to initialize email service:", error);
-      return false;
-    }
-  }
-
-  async sendEmail(options: EmailOptions): Promise<void> {
-    if (!this.isConfigured || !this.transporter) {
-      console.log("📧 Email service disabled - would send to:", options.to);
-      console.log(`   Subject: ${options.subject}`);
-      return;
-    }
+  async sendConfirmationEmail(data: ResendEmailData): Promise<void> {
+    const { email, fullName, eventTitle, eventDate, eventVenue } = data;
 
     try {
-      const from =
-        process.env.SMTP_FROM || `NextWave Global <${process.env.SMTP_USER}>`;
-
-      const info = await this.transporter.sendMail({
-        from: from,
-        to: options.to,
-        subject: options.subject,
-        html: options.html,
-        text: options.text || this.stripHtml(options.html),
+      await this.resend.emails.send({
+        from: this.fromEmail,
+        to: email,
+        subject: `Registration Confirmed: ${eventTitle} 🎉`,
+        html: this.generateConfirmationHTML(data),
       });
 
-      console.log(`✅ Email sent to ${options.to}: ${info.messageId}`);
+      console.log(`✅ Confirmation email sent to ${email}`);
     } catch (error) {
-      console.error("❌ Email sending error:", error);
+      console.error("❌ Failed to send confirmation email:", error);
       throw error;
     }
   }
 
-  private stripHtml(html: string): string {
-    return html
-      .replace(/<[^>]*>/g, "")
-      .replace(/\s+/g, " ")
-      .trim();
+  async sendAdminNotification(data: ResendEmailData): Promise<void> {
+    const adminEmails = process.env.ADMIN_EMAILS?.split(",") || [
+      "nextwaveglobal509@gmail.com",
+    ];
+
+    try {
+      const promises = adminEmails.map((adminEmail) =>
+        this.resend.emails.send({
+          from: this.fromEmail,
+          to: adminEmail.trim(),
+          subject: `New Registration: ${data.fullName} - ${data.eventTitle}`,
+          html: this.generateAdminHTML(data),
+        }),
+      );
+
+      await Promise.all(promises);
+      console.log(
+        `✅ Admin notifications sent to ${adminEmails.length} recipients`,
+      );
+    } catch (error) {
+      console.error("❌ Failed to send admin notifications:", error);
+      throw error;
+    }
   }
 
-  generateRegistrationConfirmation(data: RegistrationEmailData): string {
+  private generateConfirmationHTML(data: ResendEmailData): string {
+    const { fullName, eventTitle, eventDate, eventVenue } = data;
+
     return `
       <!DOCTYPE html>
       <html>
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Registration Confirmation</title>
+          <title>Registration Confirmed</title>
           <style>
             body {
               font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -238,23 +211,23 @@ class EmailService {
             <span class="success-icon">🎉</span>
             <h2>Registration Confirmed!</h2>
             <p style="text-align: center; color: #4b5563;">
-              Hi <strong>${data.name}</strong>, you're officially registered for
-              <strong class="highlight">${data.eventTitle}</strong>.
+              Hi <strong>${fullName}</strong>, you're officially registered for
+              <strong class="highlight">${eventTitle}</strong>.
             </p>
 
             <div class="event-details">
               <h3>📅 Event Details</h3>
               <div class="detail-row">
                 <span class="label">Event</span>
-                <span class="value"><strong>${data.eventTitle}</strong></span>
+                <span class="value"><strong>${eventTitle}</strong></span>
               </div>
               <div class="detail-row">
                 <span class="label">Date</span>
-                <span class="value">${data.eventDate}</span>
+                <span class="value">${eventDate}</span>
               </div>
               <div class="detail-row">
                 <span class="label">Venue</span>
-                <span class="value">${data.eventVenue}</span>
+                <span class="value">${eventVenue}</span>
               </div>
               <div class="detail-row">
                 <span class="label">Status</span>
@@ -293,7 +266,9 @@ class EmailService {
     `;
   }
 
-  generateAdminNotification(data: RegistrationEmailData): string {
+  private generateAdminHTML(data: ResendEmailData): string {
+    const { fullName, email, eventTitle, eventDate, eventVenue, phone } = data;
+
     return `
       <!DOCTYPE html>
       <html>
@@ -419,27 +394,33 @@ class EmailService {
               <h3>👤 Participant Details</h3>
               <div class="detail-row">
                 <span class="label">Name</span>
-                <span class="value"><strong>${data.name}</strong></span>
+                <span class="value"><strong>${fullName}</strong></span>
               </div>
               <div class="detail-row">
                 <span class="label">Email</span>
-                <span class="value">${data.email}</span>
+                <span class="value">${email}</span>
               </div>
+              ${
+                phone
+                  ? `
               <div class="detail-row">
                 <span class="label">Phone</span>
-                <span class="value">${data.phone || "Not provided"}</span>
+                <span class="value">${phone}</span>
               </div>
+              `
+                  : ""
+              }
               <div class="detail-row">
                 <span class="label">Event</span>
-                <span class="value"><strong>${data.eventTitle}</strong></span>
+                <span class="value"><strong>${eventTitle}</strong></span>
               </div>
               <div class="detail-row">
                 <span class="label">Date</span>
-                <span class="value">${data.eventDate}</span>
+                <span class="value">${eventDate}</span>
               </div>
               <div class="detail-row">
                 <span class="label">Venue</span>
-                <span class="value">${data.eventVenue}</span>
+                <span class="value">${eventVenue}</span>
               </div>
             </div>
 
@@ -464,23 +445,14 @@ class EmailService {
       </html>
     `;
   }
-
-  // Test method to verify email configuration
-  async testEmail(): Promise<boolean> {
-    if (!this.isConfigured) {
-      console.log("❌ Email service not configured");
-      return false;
-    }
-
-    try {
-      await this.transporter!.verify();
-      console.log("✅ Email service verified successfully");
-      return true;
-    } catch (error) {
-      console.error("❌ Email service verification failed:", error);
-      return false;
-    }
-  }
 }
 
-export const emailService = new EmailService();
+// Singleton instance
+let emailServiceInstance: ResendEmailService | null = null;
+
+export function getEmailService(): ResendEmailService {
+  if (!emailServiceInstance) {
+    emailServiceInstance = new ResendEmailService();
+  }
+  return emailServiceInstance;
+}

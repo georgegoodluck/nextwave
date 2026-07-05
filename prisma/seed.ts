@@ -82,8 +82,10 @@ async function main() {
   ];
 
   for (const event of events) {
-    await prisma.event.create({
-      data: event,
+    await prisma.event.upsert({
+      where: { id: event.id },
+      update: event,
+      create: event,
     });
     console.log(`✅ Created event: ${event.title}`);
   }
