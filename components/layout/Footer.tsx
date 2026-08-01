@@ -83,7 +83,9 @@ export default function Footer() {
               {/* Location */}
               <li className="flex items-center gap-3">
                 <MapPin size={16} className="text-[#c9a84c] shrink-0" />
-                <span className="inline-flex items-center h-4">Virtual & Physical Events</span>
+                <span className="inline-flex items-center h-4">
+                  Virtual & Physical Events
+                </span>
               </li>
               {/* Tagline */}
               <li className="flex items-center gap-3">
@@ -113,12 +115,6 @@ export default function Footer() {
               className="hover:text-[#c9a84c] transition touch-manipulation"
             >
               Programs
-            </button>
-            <button
-              onClick={() => scrollToSection("register")}
-              className="hover:text-[#c9a84c] transition touch-manipulation"
-            >
-              Events
             </button>
             <button
               onClick={scrollToTop}

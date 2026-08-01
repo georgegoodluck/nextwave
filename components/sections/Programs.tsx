@@ -8,10 +8,9 @@ import { useRef, useState, useEffect } from "react";
 import {
   ChevronLeft,
   ChevronRight,
-  ArrowRight,
   Sparkles,
   Users,
-  Zap,
+  CheckCircle,
 } from "lucide-react";
 
 export default function Programs() {
@@ -78,11 +77,10 @@ export default function Programs() {
     }
   };
 
-  const upcomingPrograms = PROGRAMS.filter(
-    (p) =>
-      p.status?.toLowerCase() === "upcoming" ||
-      p.status?.toLowerCase() === "coming soon",
-  );
+  const allPrograms = PROGRAMS.map((p) => ({
+    ...p,
+    status: "Past" as const,
+  }));
 
   return (
     <section
@@ -98,20 +96,20 @@ export default function Programs() {
         <div className="text-center mb-8 md:mb-12">
           <div className="inline-flex items-center gap-2 text-[#c9a84c] text-xs font-bold uppercase tracking-widest bg-[#c9a84c]/10 px-4 py-2 rounded-full mb-4 border border-[#c9a84c]/20">
             <Sparkles className="w-4 h-4" />
-            <span>Our Initiatives</span>
+            <span>Past Programs</span>
           </div>
           <h2 className="text-3xl md:text-5xl font-bold mt-2 text-white">
-            Programs That <span className="text-[#c9a84c]">Transform</span>
+            Completed <span className="text-[#c9a84c]">Programs</span>
           </h2>
           <p className="text-[#7a7270] mt-3 max-w-2xl mx-auto text-sm md:text-base">
-            From academic excellence to career building, our initiatives are
-            designed to equip you for success.
+            Explore our past initiatives that have helped students learn, earn,
+            and lead.
           </p>
 
           <div className="flex items-center justify-center gap-4 mt-4 flex-wrap">
             <div className="flex items-center gap-2 text-[#7a7270] text-xs">
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span>{upcomingPrograms.length} Upcoming</span>
+              <div className="w-2 h-2 rounded-full bg-[#333333]" />
+              <span>{allPrograms.length} Programs Completed</span>
             </div>
             <div className="w-px h-4 bg-[#333333]" />
             <div className="flex items-center gap-2 text-[#7a7270] text-xs">
@@ -153,109 +151,84 @@ export default function Programs() {
               WebkitOverflowScrolling: "touch",
             }}
           >
-            {PROGRAMS.map((item, index) => {
-              const isUpcoming =
-                item.status?.toLowerCase() === "upcoming" ||
-                item.status?.toLowerCase() === "coming soon";
-
-              return (
-                <div
-                  key={item.title}
-                  className={`w-[260px] sm:w-[280px] md:w-[300px] snap-center rounded-xl md:rounded-2xl border transition-all duration-500 overflow-hidden group flex-shrink-0 ${
-                    isUpcoming
-                      ? "border-[#c9a84c]/40 bg-gradient-to-br from-[#c9a84c]/10 to-transparent hover:border-[#c9a84c] hover:shadow-2xl hover:shadow-[#c9a84c]/20"
-                      : "border-[#333333] bg-[#1a1a1a] hover:border-[#c9a84c]/50 hover:shadow-2xl hover:shadow-[#c9a84c]/10"
-                  } hover:-translate-y-2`}
-                >
-                  {/* Image */}
-                  <div className="relative h-40 w-full overflow-hidden">
-                    {item.image ? (
-                      <>
-                        <Image
-                          src={item.image}
-                          alt={item.title}
-                          fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-700"
-                          sizes="(max-width: 768px) 260px, 300px"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d]/90 via-[#0d0d0d]/30 to-transparent" />
-                      </>
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-5xl bg-gradient-to-br from-[#c9a84c]/30 to-[#c9a84c]/5">
-                        {isUpcoming ? "🚀" : "📚"}
-                      </div>
-                    )}
-
-                    {/* Status */}
-                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-                      <span className="text-xs font-bold text-[#c9a84c] bg-black/40 backdrop-blur-sm px-2.5 py-0.5 rounded-full">
-                        #{index + 1}
-                      </span>
-                      <StatusBadge status={item.status} />
+            {allPrograms.map((item, index) => (
+              <div
+                key={item.title}
+                className={`w-[260px] sm:w-[280px] md:w-[300px] snap-center rounded-xl md:rounded-2xl border border-[#333333] bg-[#1a1a1a] overflow-hidden group flex-shrink-0 hover:border-[#c9a84c]/50 hover:shadow-2xl hover:shadow-[#c9a84c]/10 hover:-translate-y-2 transition-all duration-500`}
+              >
+                {/* Image */}
+                <div className="relative h-40 w-full overflow-hidden">
+                  {item.image ? (
+                    <>
+                      <Image
+                        src={item.image}
+                        alt={item.title}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-700"
+                        sizes="(max-width: 768px) 260px, 300px"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d]/90 via-[#0d0d0d]/30 to-transparent" />
+                    </>
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-5xl bg-gradient-to-br from-[#c9a84c]/30 to-[#c9a84c]/5">
+                      📚
                     </div>
+                  )}
 
-                    {/* Upcoming Badge */}
-                    {isUpcoming && (
-                      <div className="absolute top-3 right-3">
-                        <span className="bg-[#c9a84c] text-[#0d0d0d] text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 shadow-lg shadow-[#c9a84c]/50 animate-pulse">
-                          <Zap className="w-2.5 h-2.5" />
-                          New
-                        </span>
-                      </div>
-                    )}
+                  {/* Status */}
+                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+                    <span className="text-xs font-bold text-[#c9a84c] bg-black/40 backdrop-blur-sm px-2.5 py-0.5 rounded-full">
+                      #{index + 1}
+                    </span>
+                    <StatusBadge status="Past" />
                   </div>
 
-                  {/* Content */}
-                  <div className="p-4">
-                    <h4 className="text-white font-bold text-base mb-1.5 group-hover:text-[#c9a84c] transition-colors line-clamp-1">
-                      {item.title}
-                    </h4>
-                    <p className="text-[#7a7270] text-xs leading-relaxed mb-3 line-clamp-2">
-                      {item.desc || "An exciting initiative coming your way!"}
-                    </p>
-
-                    <div className="space-y-1.5 text-xs border-t border-[#333333] pt-3">
-                      <div className="flex items-center gap-2 text-[#b8b0a8]">
-                        <CalendarIcon className="w-3.5 h-3.5 text-[#c9a84c] shrink-0" />
-                        <span className="truncate">{item.date}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-[#b8b0a8]">
-                        <ClockIcon className="w-3.5 h-3.5 text-[#c9a84c] shrink-0" />
-                        <span className="truncate">{item.time}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-[#b8b0a8]">
-                        <LocationIcon className="w-3.5 h-3.5 text-[#c9a84c] shrink-0" />
-                        <span className="truncate">{item.venue}</span>
-                      </div>
-                    </div>
-
-                    {isUpcoming && (
-                      <button
-                        onClick={() => {
-                          const section = document.getElementById("register");
-                          if (section) {
-                            section.scrollIntoView({
-                              behavior: "smooth",
-                              block: "center",
-                            });
-                          }
-                        }}
-                        className="w-full mt-3 py-2.5 bg-[#c9a84c] hover:bg-[#a8873a] text-[#0d0d0d] rounded-lg font-semibold text-xs transition-all flex items-center justify-center gap-2 active:scale-95 touch-manipulation"
-                      >
-                        Register Now
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </button>
-                    )}
+                  {/* Completed Badge */}
+                  <div className="absolute top-3 right-3">
+                    <span className="bg-[#2a2a2a] text-[#7a7270] text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 border border-[#333333]">
+                      <CheckCircle className="w-2.5 h-2.5" />
+                      Completed
+                    </span>
                   </div>
                 </div>
-              );
-            })}
+
+                {/* Content */}
+                <div className="p-4">
+                  <h4 className="text-white font-bold text-base mb-1.5 group-hover:text-[#c9a84c] transition-colors line-clamp-1">
+                    {item.title}
+                  </h4>
+                  <p className="text-[#7a7270] text-xs leading-relaxed mb-3 line-clamp-2">
+                    {item.desc || "An initiative that helped students grow."}
+                  </p>
+
+                  <div className="space-y-1.5 text-xs border-t border-[#333333] pt-3">
+                    <div className="flex items-center gap-2 text-[#b8b0a8]">
+                      <CalendarIcon className="w-3.5 h-3.5 text-[#c9a84c] shrink-0" />
+                      <span className="truncate">{item.date}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-[#b8b0a8]">
+                      <ClockIcon className="w-3.5 h-3.5 text-[#c9a84c] shrink-0" />
+                      <span className="truncate">{item.time}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-[#b8b0a8]">
+                      <LocationIcon className="w-3.5 h-3.5 text-[#c9a84c] shrink-0" />
+                      <span className="truncate">{item.venue}</span>
+                    </div>
+                  </div>
+
+                  <div className="w-full mt-3 py-2.5 bg-[#2a2a2a] text-[#7a7270] rounded-lg font-semibold text-xs flex items-center justify-center gap-2 cursor-not-allowed">
+                    <CheckCircle className="w-3.5 h-3.5" />
+                    Program Completed
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Mobile Dots */}
-          {isMobile && PROGRAMS.length > 1 && (
+          {isMobile && allPrograms.length > 1 && (
             <div className="flex justify-center gap-1.5 mt-3">
-              {PROGRAMS.map((_, index) => (
+              {allPrograms.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => scrollToIndex(index)}
@@ -269,22 +242,6 @@ export default function Programs() {
               ))}
             </div>
           )}
-        </div>
-
-        {/* Bottom CTA */}
-        <div className="text-center mt-8 md:mt-12">
-          <button
-            onClick={() => {
-              const section = document.getElementById("register");
-              if (section) {
-                section.scrollIntoView({ behavior: "smooth", block: "start" });
-              }
-            }}
-            className="inline-flex items-center gap-2 text-[#c9a84c] hover:text-[#dbb95c] font-semibold text-sm transition-colors group touch-manipulation"
-          >
-            <span>Explore all events</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </button>
         </div>
       </div>
 
