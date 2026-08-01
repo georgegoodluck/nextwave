@@ -3,13 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, BookOpen } from "lucide-react";
 
 const NAV_ITEMS = [
   { label: "About", id: "about" },
   { label: "Mission", id: "pillars" },
   { label: "Programs", id: "programs" },
-  { label: "Events", id: "register" },
 ];
 
 export default function Navbar() {
@@ -78,6 +77,14 @@ export default function Navbar() {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#c9a84c] transition-all duration-300 group-hover:w-full" />
               </button>
             ))}
+            <Link
+              href="/library"
+              className="flex items-center gap-1.5 hover:text-[#c9a84c] transition-colors duration-200 relative group"
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+              Library
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#c9a84c] transition-all duration-300 group-hover:w-full" />
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -114,6 +121,14 @@ export default function Navbar() {
               {item.label}
             </button>
           ))}
+          <Link
+            href="/library"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="w-full text-left py-4 px-4 text-sm font-semibold uppercase tracking-widest text-[#b8b0a8] hover:text-[#c9a84c] hover:bg-[#1a1a1a] rounded-xl transition-all touch-manipulation active:scale-98 flex items-center gap-2"
+          >
+            <BookOpen className="w-4 h-4" />
+            Library
+          </Link>
         </div>
       </div>
     </>
