@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { LIBRARY_ITEMS } from "@/data/library";
 import {
   Search,
   BookOpen,
@@ -15,80 +15,6 @@ import {
   Link as LinkIcon,
   ChevronRight,
 } from "lucide-react";
-
-interface LibraryItem {
-  id: string;
-  title: string;
-  description: string;
-  type: "pdf" | "video" | "link" | "document";
-  category: string;
-  url: string;
-  thumbnail?: string;
-  date: string;
-}
-
-const libraryItems: LibraryItem[] = [
-  {
-    id: "1",
-    title: "Scholar Reboot Guide",
-    description:
-      "Complete guide to rebooting your academic journey with proven strategies.",
-    type: "pdf",
-    category: "Academic",
-    url: "/resources/scholar-reboot-guide.pdf",
-    date: "2025-10-18",
-  },
-  {
-    id: "2",
-    title: "Campus2LinkedIn Workshop Recording",
-    description:
-      "Full workshop on building professional profiles and networking on LinkedIn.",
-    type: "video",
-    category: "Career",
-    url: "https://www.youtube.com/watch?v=example",
-    date: "2025-12-21",
-  },
-  {
-    id: "3",
-    title: "Breaking into Tech: Resource Pack",
-    description:
-      "Essential resources for starting a tech career with limited resources.",
-    type: "document",
-    category: "Tech",
-    url: "/resources/breaking-into-tech-pack.pdf",
-    date: "2026-03-25",
-  },
-  {
-    id: "4",
-    title: "Leadership in Action: Key Takeaways",
-    description:
-      "Summary of leadership principles and strategies from the event.",
-    type: "pdf",
-    category: "Leadership",
-    url: "/resources/leadership-takeaways.pdf",
-    date: "2026-07-18",
-  },
-  {
-    id: "5",
-    title: "NextWave Global Community Guide",
-    description:
-      "Everything you need to know about being part of the NextWave community.",
-    type: "link",
-    category: "Community",
-    url: "https://chat.whatsapp.com/CGacyht0SVp1YzwTnm3wjm",
-    date: "2025-01-01",
-  },
-  {
-    id: "6",
-    title: "Student Success Toolkit",
-    description:
-      "Curated tools and resources for academic and professional success.",
-    type: "document",
-    category: "Academic",
-    url: "/resources/success-toolkit.pdf",
-    date: "2025-09-15",
-  },
-];
 
 const typeIcons = {
   pdf: <FileText className="w-5 h-5" />,
@@ -117,7 +43,7 @@ export default function LibraryPage() {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const filteredItems = libraryItems.filter((item) => {
+  const filteredItems = LIBRARY_ITEMS.filter((item) => {
     const matchesSearch =
       item.title.toLowerCase().includes(search.toLowerCase()) ||
       item.description.toLowerCase().includes(search.toLowerCase());
@@ -207,7 +133,7 @@ export default function LibraryPage() {
                 No Resources Found
               </h3>
               <p className="text-sm text-[#7a7270]">
-                Try adjusting your search or filter to find what you're looking
+                Try adjusting your search or filter to find what you&apos;re looking
                 for.
               </p>
             </div>
@@ -275,10 +201,10 @@ export default function LibraryPage() {
         <div className="mt-12 text-center">
           <div className="bg-[#1a1a1a] rounded-2xl p-6 md:p-8 border border-[#c9a84c]/20 max-w-2xl mx-auto">
             <h3 className="text-lg font-bold text-white mb-2">
-              Can't find what you're looking for?
+              Can&apos;t find what you&apos;re looking for?
             </h3>
             <p className="text-[#7a7270] text-sm mb-4">
-              Reach out to us and we'll help you find the resources you need.
+              Reach out to us and we&apos;ll help you find the resources you need.
             </p>
             <a
               href="mailto:nextwaveglobal509@gmail.com"
