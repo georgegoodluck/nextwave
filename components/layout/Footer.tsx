@@ -74,7 +74,7 @@ export default function Footer() {
                 <Mail size={16} className="text-[#c9a84c] shrink-0" />
                 <a
                   href="mailto:nextwaveglobal509@gmail.com"
-                  className="hover:text-[#c9a84c] transition"
+                  className="hover:text-[#c9a84c] transition break-all sm:break-normal"
                 >
                   nextwaveglobal509@gmail.com
                 </a>
@@ -103,32 +103,32 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 border-t border-[#333333] flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-semibold text-[#7a7270] uppercase tracking-widest">
-          <p className="text-center sm:text-left">
+        <div className="pt-6 border-t border-[#333333] flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-semibold text-[#7a7270] uppercase tracking-widest text-center">
+          <p className="text-center md:text-left">
             © {new Date().getFullYear()} Nextwave Global. All Rights Reserved.
           </p>
-          <div className="flex items-center gap-4 sm:gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
             <button
               onClick={() => scrollToSection("about")}
-              className="hover:text-[#c9a84c] transition touch-manipulation"
+              className="hover:text-[#c9a84c] transition touch-manipulation whitespace-nowrap"
             >
               About
             </button>
             <button
               onClick={() => scrollToSection("programs")}
-              className="hover:text-[#c9a84c] transition touch-manipulation"
+              className="hover:text-[#c9a84c] transition touch-manipulation whitespace-nowrap"
             >
               Programs
             </button>
             <Link
               href="/library"
-              className="hover:text-[#c9a84c] transition touch-manipulation"
+              className="hover:text-[#c9a84c] transition touch-manipulation whitespace-nowrap"
             >
               Library
             </Link>
             <button
               onClick={scrollToTop}
-              className="p-2 bg-[#1a1a1a] hover:bg-[#c9a84c] rounded-full transition-colors touch-manipulation"
+              className="p-2 bg-[#1a1a1a] hover:bg-[#c9a84c] rounded-full transition-colors touch-manipulation shrink-0"
               aria-label="Scroll to top"
             >
               <ArrowUp className="w-4 h-4 text-[#b8b0a8] hover:text-[#0d0d0d]" />
