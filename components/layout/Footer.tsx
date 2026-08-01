@@ -2,7 +2,7 @@
 
 import React from "react";
 import { SocialIcon } from "react-social-icons";
-import { Mail, MapPin, ArrowUp, Sparkles } from "lucide-react";
+import { Mail, MapPin, ArrowUp, Sparkles, BookOpen } from "lucide-react";
 import Link from "next/link";
 
 export default function Footer() {
@@ -70,7 +70,6 @@ export default function Footer() {
               Connect With Us
             </h4>
             <ul className="space-y-3 text-[#7a7270] text-sm font-medium">
-              {/* Email - Fixed Alignment */}
               <li className="flex items-center gap-3">
                 <Mail size={16} className="text-[#c9a84c] shrink-0" />
                 <a
@@ -80,17 +79,26 @@ export default function Footer() {
                   nextwaveglobal509@gmail.com
                 </a>
               </li>
-              {/* Location */}
               <li className="flex items-center gap-3">
                 <MapPin size={16} className="text-[#c9a84c] shrink-0" />
-                <span className="inline-flex items-center h-4">Virtual & Physical Events</span>
+                <span className="inline-flex items-center h-4">
+                  Virtual & Physical Events
+                </span>
               </li>
-              {/* Tagline */}
               <li className="flex items-center gap-3">
                 <Sparkles size={16} className="text-[#c9a84c] shrink-0" />
                 <span className="text-[#c9a84c] font-bold italic text-base inline-flex items-center h-4">
                   Learn. Earn. Lead.
                 </span>
+              </li>
+              <li className="flex items-center gap-3">
+                <BookOpen size={16} className="text-[#c9a84c] shrink-0" />
+                <Link
+                  href="/library"
+                  className="hover:text-[#c9a84c] transition inline-flex items-center h-4"
+                >
+                  Visit Our Library
+                </Link>
               </li>
             </ul>
           </div>
@@ -114,12 +122,12 @@ export default function Footer() {
             >
               Programs
             </button>
-            <button
-              onClick={() => scrollToSection("register")}
+            <Link
+              href="/library"
               className="hover:text-[#c9a84c] transition touch-manipulation"
             >
-              Events
-            </button>
+              Library
+            </Link>
             <button
               onClick={scrollToTop}
               className="p-2 bg-[#1a1a1a] hover:bg-[#c9a84c] rounded-full transition-colors touch-manipulation flex items-center justify-center"
