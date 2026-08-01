@@ -18,8 +18,8 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#0d0d0d] border-t border-[#333333] pt-12 pb-6 px-4 sm:px-6">
-      <div className="max-w-7xl mx-auto">
+    <footer className="bg-[#0d0d0d] border-t border-[#333333] pt-12 pb-6 px-4 sm:px-6 overflow-hidden">
+      <div className="max-w-7xl mx-auto w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-12">
           {/* Brand Section */}
           <div>
@@ -74,20 +74,18 @@ export default function Footer() {
                 <Mail size={16} className="text-[#c9a84c] shrink-0" />
                 <a
                   href="mailto:nextwaveglobal509@gmail.com"
-                  className="hover:text-[#c9a84c] transition inline-flex items-center h-4"
+                  className="hover:text-[#c9a84c] transition break-all"
                 >
                   nextwaveglobal509@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <MapPin size={16} className="text-[#c9a84c] shrink-0" />
-                <span className="inline-flex items-center h-4">
-                  Virtual & Physical Events
-                </span>
+                <span>Virtual & Physical Events</span>
               </li>
               <li className="flex items-center gap-3">
                 <Sparkles size={16} className="text-[#c9a84c] shrink-0" />
-                <span className="text-[#c9a84c] font-bold italic text-base inline-flex items-center h-4">
+                <span className="text-[#c9a84c] font-bold italic text-base">
                   Learn. Earn. Lead.
                 </span>
               </li>
@@ -95,7 +93,7 @@ export default function Footer() {
                 <BookOpen size={16} className="text-[#c9a84c] shrink-0" />
                 <Link
                   href="/library"
-                  className="hover:text-[#c9a84c] transition inline-flex items-center h-4"
+                  className="hover:text-[#c9a84c] transition"
                 >
                   Visit Our Library
                 </Link>
@@ -105,32 +103,33 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 border-t border-[#333333] flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-semibold text-[#7a7270] uppercase tracking-widest">
-          <p className="text-center sm:text-left">
+        <div className="pt-6 border-t border-[#333333] flex flex-col md:flex-row justify-between items-center gap-6 text-xs font-semibold text-[#7a7270] uppercase tracking-widest text-center">
+          <p className="text-center md:text-left">
             © {new Date().getFullYear()} Nextwave Global. All Rights Reserved.
           </p>
-          <div className="flex items-center gap-4 sm:gap-6 flex-wrap justify-center">
+
+          <div className="flex flex-row items-center justify-center gap-4 sm:gap-6 flex-wrap">
             <button
               onClick={() => scrollToSection("about")}
-              className="hover:text-[#c9a84c] transition touch-manipulation"
+              className="hover:text-[#c9a84c] transition touch-manipulation whitespace-nowrap leading-none"
             >
               About
             </button>
             <button
               onClick={() => scrollToSection("programs")}
-              className="hover:text-[#c9a84c] transition touch-manipulation"
+              className="hover:text-[#c9a84c] transition touch-manipulation whitespace-nowrap leading-none"
             >
               Programs
             </button>
             <Link
               href="/library"
-              className="hover:text-[#c9a84c] transition touch-manipulation"
+              className="inline-flex items-center hover:text-[#c9a84c] transition touch-manipulation whitespace-nowrap leading-none"
             >
               Library
             </Link>
             <button
               onClick={scrollToTop}
-              className="p-2 bg-[#1a1a1a] hover:bg-[#c9a84c] rounded-full transition-colors touch-manipulation flex items-center justify-center"
+              className="p-2 bg-[#1a1a1a] hover:bg-[#c9a84c] rounded-full transition-colors touch-manipulation shrink-0"
               aria-label="Scroll to top"
             >
               <ArrowUp className="w-4 h-4 text-[#b8b0a8] hover:text-[#0d0d0d]" />

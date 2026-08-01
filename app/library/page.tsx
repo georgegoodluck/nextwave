@@ -11,33 +11,14 @@ import {
   ArrowLeft,
   Sparkles,
   FileText,
-  Video,
-  Link as LinkIcon,
   ChevronRight,
 } from "lucide-react";
 
-const typeIcons = {
-  pdf: <FileText className="w-5 h-5" />,
-  video: <Video className="w-5 h-5" />,
-  link: <LinkIcon className="w-5 h-5" />,
-  document: <FileText className="w-5 h-5" />,
+// Get unique categories from data for dynamic rendering
+const getUniqueCategories = () => {
+  const unique = new Set(LIBRARY_ITEMS.map((item) => item.category));
+  return ["All", ...Array.from(unique).sort()];
 };
-
-const typeColors = {
-  pdf: "bg-red-500/20 text-red-400 border-red-500/30",
-  video: "bg-blue-500/20 text-blue-400 border-blue-500/30",
-  link: "bg-green-500/20 text-green-400 border-green-500/30",
-  document: "bg-purple-500/20 text-purple-400 border-purple-500/30",
-};
-
-const categories = [
-  "All",
-  "Academic",
-  "Career",
-  "Tech",
-  "Leadership",
-  "Community",
-];
 
 export default function LibraryPage() {
   const [search, setSearch] = useState("");
@@ -51,6 +32,38 @@ export default function LibraryPage() {
       selectedCategory === "All" || item.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
+
+  // Helper to get file ID from Google Drive URL
+  const getFileId = (url: string) => {
+    const match = url.match(/\/d\/([^\/]+)/);
+    return match ? match[1] : null;
+  };
+
+  // Get direct download URL
+  const getDownloadUrl = (url: string) => {
+    const fileId = getFileId(url);
+    return fileId
+      ? `https://drive.google.com/uc?export=download&id=${fileId}`
+      : url;
+  };
+
+  // Get preview URL
+  const getPreviewUrl = (url: string) => {
+    const fileId = getFileId(url);
+    return fileId ? `https://drive.google.com/file/d/${fileId}/preview` : url;
+  };
+
+  // Format date properly
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
+  const dynamicCategories = getUniqueCategories();
 
   return (
     <div className="min-h-screen bg-[#0d0d0d]">
@@ -84,9 +97,15 @@ export default function LibraryPage() {
             Explore Our <span className="text-[#c9a84c]">Library</span>
           </h1>
           <p className="text-[#7a7270] max-w-2xl mx-auto text-sm md:text-base">
-            Access free resources, guides, and recordings from our past events
-            to help you learn, earn, and lead.
+            Access free PDF resources, guides, and books to help you learn,
+            earn, and lead.
           </p>
+          <div className="mt-4 inline-flex items-center gap-2 bg-[#1a1a1a] px-4 py-2 rounded-full border border-[#333333]">
+            <FileText className="w-4 h-4 text-[#c9a84c]" />
+            <span className="text-sm text-[#b8b0a8]">
+              {LIBRARY_ITEMS.length} PDF Resources Available
+            </span>
+          </div>
         </div>
 
         {/* Search and Filter */}
@@ -101,8 +120,8 @@ export default function LibraryPage() {
               className="w-full pl-10 pr-4 py-3 bg-[#1a1a1a] border border-[#333333] rounded-xl focus:border-[#c9a84c] focus:ring-2 focus:ring-[#c9a84c]/20 outline-none text-white placeholder:text-[#7a7270] text-sm"
             />
           </div>
-          <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-custom">
-            {categories.map((category) => (
+          <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-custom flex-wrap">
+            {dynamicCategories.map((category) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
@@ -119,10 +138,10 @@ export default function LibraryPage() {
         </div>
 
         {/* Results Count */}
-        <p className="text-sm text-[#7a7270] mb-4">
+        <div className="text-sm text-[#7a7270] mb-4 min-h-[20px]">
           {filteredItems.length}{" "}
           {filteredItems.length === 1 ? "resource" : "resources"} found
-        </p>
+        </div>
 
         {/* Library Grid */}
         {filteredItems.length === 0 ? (
@@ -133,8 +152,8 @@ export default function LibraryPage() {
                 No Resources Found
               </h3>
               <p className="text-sm text-[#7a7270]">
-                Try adjusting your search or filter to find what you&apos;re looking
-                for.
+                Try adjusting your search or filter to find what you&apos;re
+                looking for.
               </p>
             </div>
           </div>
@@ -143,13 +162,11 @@ export default function LibraryPage() {
             {filteredItems.map((item) => (
               <div
                 key={item.id}
-                className="bg-[#1a1a1a] rounded-xl border border-[#333333] p-5 hover:border-[#c9a84c] hover:shadow-lg hover:shadow-[#c9a84c]/5 transition-all group"
+                className="bg-[#1a1a1a] rounded-xl border border-[#333333] p-5 hover:border-[#c9a84c] hover:shadow-lg hover:shadow-[#c9a84c]/5 transition-all group flex flex-col min-h-[280px]"
               >
                 <div className="flex items-start justify-between mb-3">
-                  <div
-                    className={`p-2.5 rounded-lg border ${typeColors[item.type]}`}
-                  >
-                    {typeIcons[item.type]}
+                  <div className="p-2.5 rounded-lg border bg-red-500/20 text-red-400 border-red-500/30">
+                    <FileText className="w-5 h-5" />
                   </div>
                   <span className="text-[10px] font-medium text-[#7a7270] bg-[#0d0d0d] px-2 py-1 rounded-full">
                     {item.category}
@@ -159,38 +176,35 @@ export default function LibraryPage() {
                 <h3 className="font-bold text-white mb-1.5 group-hover:text-[#c9a84c] transition-colors line-clamp-1">
                   {item.title}
                 </h3>
-                <p className="text-[#7a7270] text-sm mb-4 line-clamp-2">
+                <p className="text-[#7a7270] text-sm mb-4 line-clamp-2 flex-1">
                   {item.description}
                 </p>
 
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between mt-2 pt-3 border-t border-[#333333]">
                   <span className="text-[10px] text-[#7a7270]">
-                    Added {new Date(item.date).toLocaleDateString()}
+                    Added {formatDate(item.date)}
                   </span>
-                  <a
-                    href={item.url}
-                    target={item.type === "link" ? "_blank" : "_self"}
-                    rel={item.type === "link" ? "noopener noreferrer" : ""}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#c9a84c] hover:text-[#a8873a] transition-colors touch-manipulation"
-                  >
-                    {item.type === "pdf" || item.type === "document" ? (
-                      <>
-                        <Download className="w-3.5 h-3.5" />
-                        Download
-                      </>
-                    ) : item.type === "video" ? (
-                      <>
-                        <Eye className="w-3.5 h-3.5" />
-                        Watch
-                      </>
-                    ) : (
-                      <>
-                        <LinkIcon className="w-3.5 h-3.5" />
-                        Visit
-                      </>
-                    )}
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </a>
+                  <div className="flex items-center gap-2">
+                    <a
+                      href={getPreviewUrl(item.url)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-[#c9a84c] hover:text-[#a8873a] transition-colors touch-manipulation"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      Preview
+                    </a>
+                    <span className="text-[#333333]">|</span>
+                    <a
+                      href={getDownloadUrl(item.url)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-[#c9a84c] hover:text-[#a8873a] transition-colors touch-manipulation"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      Download
+                    </a>
+                  </div>
                 </div>
               </div>
             ))}
@@ -204,7 +218,8 @@ export default function LibraryPage() {
               Can&apos;t find what you&apos;re looking for?
             </h3>
             <p className="text-[#7a7270] text-sm mb-4">
-              Reach out to us and we&apos;ll help you find the resources you need.
+              Reach out to us and we&apos;ll help you find the resources you
+              need.
             </p>
             <a
               href="mailto:nextwaveglobal509@gmail.com"
