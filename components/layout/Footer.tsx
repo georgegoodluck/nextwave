@@ -74,20 +74,18 @@ export default function Footer() {
                 <Mail size={16} className="text-[#c9a84c] shrink-0" />
                 <a
                   href="mailto:nextwaveglobal509@gmail.com"
-                  className="hover:text-[#c9a84c] transition inline-flex items-center h-4"
+                  className="hover:text-[#c9a84c] transition"
                 >
                   nextwaveglobal509@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <MapPin size={16} className="text-[#c9a84c] shrink-0" />
-                <span className="inline-flex items-center h-4">
-                  Virtual & Physical Events
-                </span>
+                <span>Virtual & Physical Events</span>
               </li>
               <li className="flex items-center gap-3">
                 <Sparkles size={16} className="text-[#c9a84c] shrink-0" />
-                <span className="text-[#c9a84c] font-bold italic text-base inline-flex items-center h-4">
+                <span className="text-[#c9a84c] font-bold italic text-base">
                   Learn. Earn. Lead.
                 </span>
               </li>
@@ -95,7 +93,7 @@ export default function Footer() {
                 <BookOpen size={16} className="text-[#c9a84c] shrink-0" />
                 <Link
                   href="/library"
-                  className="hover:text-[#c9a84c] transition inline-flex items-center h-4"
+                  className="hover:text-[#c9a84c] transition"
                 >
                   Visit Our Library
                 </Link>
@@ -109,7 +107,7 @@ export default function Footer() {
           <p className="text-center sm:text-left">
             © {new Date().getFullYear()} Nextwave Global. All Rights Reserved.
           </p>
-          <div className="flex items-center gap-4 sm:gap-6 flex-wrap justify-center">
+          <div className="flex items-center gap-4 sm:gap-6">
             <button
               onClick={() => scrollToSection("about")}
               className="hover:text-[#c9a84c] transition touch-manipulation"
@@ -130,7 +128,7 @@ export default function Footer() {
             </Link>
             <button
               onClick={scrollToTop}
-              className="p-2 bg-[#1a1a1a] hover:bg-[#c9a84c] rounded-full transition-colors touch-manipulation flex items-center justify-center"
+              className="p-2 bg-[#1a1a1a] hover:bg-[#c9a84c] rounded-full transition-colors touch-manipulation"
               aria-label="Scroll to top"
             >
               <ArrowUp className="w-4 h-4 text-[#b8b0a8] hover:text-[#0d0d0d]" />
