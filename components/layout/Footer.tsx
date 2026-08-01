@@ -18,8 +18,8 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#0d0d0d] border-t border-[#333333] pt-12 pb-6 px-4 sm:px-6">
-      <div className="max-w-7xl mx-auto">
+    <footer className="bg-[#0d0d0d] border-t border-[#333333] pt-12 pb-6 px-4 sm:px-6 overflow-hidden">
+      <div className="max-w-7xl mx-auto w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-12">
           {/* Brand Section */}
           <div>
@@ -74,7 +74,7 @@ export default function Footer() {
                 <Mail size={16} className="text-[#c9a84c] shrink-0" />
                 <a
                   href="mailto:nextwaveglobal509@gmail.com"
-                  className="hover:text-[#c9a84c] transition break-all sm:break-normal"
+                  className="hover:text-[#c9a84c] transition break-all"
                 >
                   nextwaveglobal509@gmail.com
                 </a>
@@ -103,26 +103,27 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 border-t border-[#333333] flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-semibold text-[#7a7270] uppercase tracking-widest text-center">
+        <div className="pt-6 border-t border-[#333333] flex flex-col md:flex-row justify-between items-center gap-6 text-xs font-semibold text-[#7a7270] uppercase tracking-widest text-center">
           <p className="text-center md:text-left">
             © {new Date().getFullYear()} Nextwave Global. All Rights Reserved.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+
+          <div className="flex flex-row items-center justify-center gap-4 sm:gap-6 flex-wrap">
             <button
               onClick={() => scrollToSection("about")}
-              className="hover:text-[#c9a84c] transition touch-manipulation whitespace-nowrap"
+              className="hover:text-[#c9a84c] transition touch-manipulation whitespace-nowrap leading-none"
             >
               About
             </button>
             <button
               onClick={() => scrollToSection("programs")}
-              className="hover:text-[#c9a84c] transition touch-manipulation whitespace-nowrap"
+              className="hover:text-[#c9a84c] transition touch-manipulation whitespace-nowrap leading-none"
             >
               Programs
             </button>
             <Link
               href="/library"
-              className="hover:text-[#c9a84c] transition touch-manipulation whitespace-nowrap"
+              className="inline-flex items-center hover:text-[#c9a84c] transition touch-manipulation whitespace-nowrap leading-none"
             >
               Library
             </Link>
