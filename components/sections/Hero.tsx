@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles, BookOpen } from "lucide-react";
 
 const container = {
   hidden: { opacity: 0 },
@@ -79,7 +79,7 @@ export default function Hero() {
 
         <motion.div
           variants={item}
-          className="flex flex-col sm:flex-row gap-4 justify-center"
+          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
           <Link
             href="https://chat.whatsapp.com/CGacyht0SVp1YzwTnm3wjm?mode=gi_t"
@@ -89,6 +89,14 @@ export default function Hero() {
           >
             Join the Movement
             <ArrowRight className="w-5 h-5" />
+          </Link>
+
+          <Link
+            href="/library"
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#1a1a1a] hover:bg-[#2a2a2a] text-white font-bold rounded-full transition-all border border-[#333333] hover:border-[#c9a84c] hover:shadow-lg hover:shadow-[#c9a84c]/10 active:scale-95 touch-manipulation min-h-[48px]"
+          >
+            <BookOpen className="w-5 h-5 text-[#c9a84c]" />
+            Visit Our Library
           </Link>
         </motion.div>
 

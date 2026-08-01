@@ -59,7 +59,7 @@ export const UPCOMING_EVENTS: Event[] = [
     venue: "Virtual (Google Meet)",
     price: "Free",
     speakers: ["Dr. Bush", "Senator"],
-    status: "Upcoming",
+    status: "Past",
     image: "/events/leadership.jpg", // ✅ Added image path
   },
 ];
