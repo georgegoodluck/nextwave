@@ -203,7 +203,7 @@ function generateAttendeeEmail(
           <p>We'll send you more details and access links closer to the date.</p>
           
           <div style="text-align: center; margin: 30px 0;">
-            <a href="${process.env.NEXT_PUBLIC_APP_URL || "https://nextwaveglobal.com"}" class="button">Visit Website</a>
+            <a href="${process.env.NEXT_PUBLIC_APP_URL || "http://nextwaveglobal.vercel.app/"}" class="button">Visit Website</a>
           </div>
           
           <p>Have questions? Reply to this email or reach out at nextwaveglobal509@gmail.com</p>
@@ -255,7 +255,7 @@ function generateAdminEmail(
           </div>
           
           <p style="text-align: center; margin-top: 20px;">
-            <a href="${process.env.NEXT_PUBLIC_APP_URL || "https://nextwaveglobal.com"}/admin" style="display: inline-block; background: #b08d21; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">
+            <a href="${process.env.NEXT_PUBLIC_APP_URL || "http://nextwaveglobal.vercel.app/"}/admin" style="display: inline-block; background: #b08d21; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">
               View Dashboard →
             </a>
           </p>
