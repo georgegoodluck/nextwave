@@ -15,39 +15,22 @@ export const metadata: Metadata = {
   description:
     "Empowering students through events, mentorship, and career development. Join NextWave Global to learn, earn, and lead in your academic journey.",
   keywords: [
-    "NextWave",
-    "students",
+    "NextWave Global",
+    "student empowerment",
     "career development",
     "mentorship",
-    "events",
     "academic success",
     "leadership",
+    "student events",
+    "professional development",
+    "scholar reboot",
+    "campus to linkedin",
+    "tech career",
+    "leadership skills",
   ],
   authors: [{ name: "NextWave Global" }],
-  openGraph: {
-    title: "NextWave Global - Learn, Earn, Lead",
-    description:
-      "Empowering students through events, mentorship, and career development",
-    url: process.env.NEXT_PUBLIC_BASE_URL,
-    siteName: "NextWave Global",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "NextWave Global",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "NextWave Global - Learn, Earn, Lead",
-    description:
-      "Empowering students through events, mentorship, and career development",
-    images: ["/og-image.jpg"],
-  },
+  creator: "NextWave Global",
+  publisher: "NextWave Global",
   robots: {
     index: true,
     follow: true,
@@ -59,12 +42,38 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  openGraph: {
+    title: "NextWave Global - Learn, Earn, Lead",
+    description:
+      "Empowering students through events, mentorship, and career development",
+    url: process.env.NEXT_PUBLIC_BASE_URL,
+    siteName: "NextWave Global",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "NextWave Global - Empowering Students Worldwide",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NextWave Global - Learn, Earn, Lead",
+    description:
+      "Empowering students through events, mentorship, and career development",
+    images: ["/og-image.jpg"],
+    creator: "@nextwaveglobal",
+  },
   verification: {
     google: process.env.GOOGLE_VERIFICATION_ID,
   },
   alternates: {
     canonical: process.env.NEXT_PUBLIC_BASE_URL,
   },
+  category: "education",
 };
 
 export default function RootLayout({
