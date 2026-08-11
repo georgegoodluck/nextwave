@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_BASE_URL || "https://nextwaveglobal.com",
+    process.env.NEXT_PUBLIC_BASE_URL || "http://nextwaveglobal.vercel.app/",
   ),
   title: {
     default: "NextWave Global - Learn, Earn, Lead",

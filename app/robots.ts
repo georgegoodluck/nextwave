@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/admin/", "/api/"],
     },
-    sitemap: `${process.env.NEXT_PUBLIC_BASE_URL || "https://nextwaveglobal.com"}/sitemap.xml`,
+    sitemap: `${process.env.NEXT_PUBLIC_BASE_URL || "http://nextwaveglobal.vercel.app/"}/sitemap.xml`,
   };
 }

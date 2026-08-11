@@ -31,7 +31,7 @@ export default function Hero() {
             description:
               "Empowering students through events, mentorship, and career development",
             url:
-              process.env.NEXT_PUBLIC_BASE_URL || "https://nextwaveglobal.com",
+              process.env.NEXT_PUBLIC_BASE_URL || "http://nextwaveglobal.vercel.app/",
             logo: "/logo.png",
             sameAs: [
               "https://www.linkedin.com/company/nextwave-g/",
